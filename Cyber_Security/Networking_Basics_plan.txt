@@ -1,0 +1,298 @@
+============================================================
+NETWORKING FOR AI ENGINEER + FASTAPI — FOCUSED ROADMAP
+============================================================
+
+    GOAL:
+    Understand how data moves between client → FastAPI → AI model → cloud,
+    so you can build, deploy, and debug AI backend systems confidently.
+
+    ------------------------------------------------------------
+    PHASE 1 — CORE MENTAL MODELS
+    ------------------------------------------------------------
+    - What is a computer network
+    - LAN vs WAN vs Internet
+    - Client–Server architecture
+    - OSI model vs TCP/IP model (mapping only)
+
+    Outcome:
+    Understand that every API call is structured packet exchange.
+
+    ------------------------------------------------------------
+    PHASE 2 — ADDRESSING & ROUTING
+    ------------------------------------------------------------
+    - IPv4 basics
+    - Public IP vs Private IP
+    - CIDR & subnets (basic understanding)
+    - Default gateway
+    - NAT (how your FastAPI server becomes reachable)
+
+    Outcome:
+    Understand how your API gets an address and is reachable from outside.
+
+    ------------------------------------------------------------
+    PHASE 3 — TRANSPORT LAYER (CRITICAL)
+    ------------------------------------------------------------
+    - TCP vs UDP
+    - TCP 3-way handshake
+    - Reliable delivery & flow control
+    - Ports (80, 443, 8000)
+    - Sockets (Client ↔ FastAPI server)
+
+    Outcome:
+    Understand how FastAPI listens on a port and accepts connections.
+
+    ------------------------------------------------------------
+    PHASE 4 — APPLICATION LAYER (WEB + API)
+    ------------------------------------------------------------
+    - DNS
+      - Domain → IP resolution
+    - HTTP
+      - Request / Response structure
+      - Methods (GET, POST, etc.)
+      - Status codes
+      - Headers & Body
+    - HTTPS
+      - TLS handshake
+      - Certificates
+      - Encrypted transport
+    - REST principles
+
+    Outcome:
+    Understand exactly what happens when a client calls your FastAPI endpoint.
+
+    ------------------------------------------------------------
+    PHASE 5 — FASTAPI NETWORK PAIRING
+    ------------------------------------------------------------
+    - Uvicorn ASGI server
+    - Listening sockets
+    - HTTP parsing into FastAPI Request objects
+    - Response serialization
+    - WebSockets for real-time inference
+    - Async concurrency over TCP connections
+
+    Outcome:
+    Understand how FastAPI sits directly on networking layers.
+
+    ------------------------------------------------------------
+    PHASE 6 — DEPLOYMENT NETWORKING
+    ------------------------------------------------------------
+    - Reverse proxy (Nginx)
+    - Load balancer concept
+    - DNS → Public IP mapping
+    - HTTPS termination
+    - Docker container networking (bridge)
+    - Cloud networking concepts (VPC, security groups)
+
+    Outcome:
+    Understand how localhost FastAPI becomes a public production AI service.
+
+    ------------------------------------------------------------
+    PHASE 7 — NETWORK DEBUGGING TOOLS
+    ------------------------------------------------------------
+    - curl        → test API endpoints
+    - ping        → reachability check
+    - traceroute → packet path
+    - nslookup   → DNS queries
+    - netstat/ss → open listening ports
+
+    Outcome:
+    Debug “API not reachable” issues without guessing.
+
+    ------------------------------------------------------------
+    PHASE 8 — END-TO-END TRACE DRILL
+    ------------------------------------------------------------
+    Browser / Client
+    → DNS lookup
+    → TCP handshake
+    → TLS handshake
+    → HTTP request
+    → FastAPI application
+    → AI model inference
+    → HTTP response
+
+    Outcome:
+    Mentally trace every production AI request.
+
+    ------------------------------------------------------------
+    2-WEEK EXECUTION PLAN
+    ------------------------------------------------------------
+    Day 1  - Network purpose + Client-Server
+    Day 2  - OSI vs TCP/IP
+    Day 3  - IP + NAT
+    Day 4  - TCP + Ports + Sockets
+    Day 5  - DNS
+    Day 6  - HTTP
+    Day 7  - HTTPS + TLS
+    Day 8  - FastAPI request lifecycle
+    Day 9  - Reverse proxy + Load balancer
+    Day 10 - Docker networking
+    Day 11 - Debugging tools
+    Day 12–14 - Full request tracing drills
+
+    ------------------------------------------------------------
+    THE 20% THAT GIVES 80% MASTERY
+    ------------------------------------------------------------
+    - TCP 3-way handshake
+    - DNS resolution flow
+    - HTTP request/response
+    - TLS handshake concept
+    - Reverse proxy (Nginx)
+    - FastAPI listening on sockets
+
+    Master these → You are production-capable.
+
+    ============================================================
+    NEXT STEP AFTER COMPLETION:
+    FastAPI + Nginx + HTTPS + Docker full deployment drill
+    ============================================================
+
+============================================================
+NETWORKING FOR AI ENGINEER + FASTAPI — EXPLAINED ROADMAP
+============================================================
+
+    PHASE 1 — CORE MENTAL MODELS
+    ------------------------------------------------------------
+    Networking is the foundation of communication between machines.
+    Every API call is just data packets structured and exchanged.
+
+    • Network: A system that connects computers to share data.
+    • LAN: Local network (e.g., your Wi-Fi router).
+    • WAN: Connects LANs across distance (e.g., your ISP).
+    • Internet: Global network of interconnected WANs.
+    • Client–Server: Client sends requests, server sends responses.
+    • OSI vs TCP/IP: OSI (7 layers, conceptual) maps to TCP/IP (4 layers, practical).
+
+    Outcome → You grasp that API traffic = digital conversations using layered protocols.
+
+    ------------------------------------------------------------
+    PHASE 2 — ADDRESSING & ROUTING
+    ------------------------------------------------------------
+    To communicate, machines need addresses (IPs).
+
+    • IPv4: Numeric address assigned to each device (e.g., 192.168.1.10).
+    • Public IP: Reachable over the Internet.
+    • Private IP: Used inside LAN; hidden from outside.
+    • CIDR/Subnets: Groups IPs for efficient routing and isolation.
+    • Default gateway: Router that forwards packets to the Internet.
+    • NAT: Translates private IPs to a public IP so multiple devices share one connection.
+
+    Outcome → You understand how your FastAPI server becomes reachable globally.
+
+    ------------------------------------------------------------
+    PHASE 3 — TRANSPORT LAYER (CRITICAL)
+    ------------------------------------------------------------
+    Defines *how* data is sent reliably.
+
+    • TCP: Reliable, ordered connection (used by HTTP).
+    • UDP: Faster, less reliable (used by streaming, games).
+    • TCP handshake: SYN → SYN-ACK → ACK to establish a connection.
+    • Flow control: Prevents congestion, ensures smooth transmission.
+    • Ports: Logical endpoints for services (80=HTTP, 443=HTTPS, 8000=FastAPI dev).
+    • Sockets: Combination of IP + Port = communication channel.
+
+    Outcome → You know exactly how FastAPI “listens” and accepts client connections.
+
+    ------------------------------------------------------------
+    PHASE 4 — APPLICATION LAYER (WEB + API)
+    ------------------------------------------------------------
+    Defines *what* is communicated and *how it’s interpreted*.
+
+    • DNS: Converts human-readable domain (api.example.com) → IP.
+    • HTTP: Core web protocol; sends structured request/response.
+      - Methods: GET, POST, PUT, DELETE, etc.
+      - Status Codes: 200 OK, 404 Not Found, 500 Error.
+      - Headers: Metadata (Content-Type, Authorization).
+      - Body: Actual data payload (JSON, HTML, bytes).
+    • HTTPS: Encrypted HTTP using TLS.
+      - TLS handshake: Establishes keys for encrypted communication.
+      - Certificates: Verify identity and authenticity.
+    • REST: API design where each endpoint represents a resource.
+
+    Outcome → You can trace every browser → FastAPI call in clear steps.
+
+    ------------------------------------------------------------
+    PHASE 5 — FASTAPI NETWORK PAIRING
+    ------------------------------------------------------------
+    Bridging networking to actual app code.
+
+    • Uvicorn: ASGI server that handles low-level socket I/O.
+    • Listening sockets: Uvicorn binds to IP:port (e.g., 0.0.0.0:8000).
+    • HTTP parsing: Converts raw bytes → Request objects.
+    • Response serialization: Converts objects → JSON or text to send back.
+    • WebSockets: Persistent TCP connections for real-time communication.
+    • Async I/O: Lets FastAPI handle many concurrent connections efficiently.
+
+    Outcome → You see how FastAPI sits *directly* on networking primitives.
+
+    ------------------------------------------------------------
+    PHASE 6 — DEPLOYMENT NETWORKING
+    ------------------------------------------------------------
+    Turning your local app into a global service.
+
+    • Reverse proxy (Nginx): Forwards incoming traffic to FastAPI, handles caching/security.
+    • Load balancer: Distributes requests across multiple FastAPI instances.
+    • DNS → Public IP: Maps your domain to server IP.
+    • HTTPS termination: TLS handled by Nginx or cloud gateway.
+    • Docker networking: Containers communicate via bridge networks.
+    • Cloud networking: VPC = virtual LAN; security groups = firewall rules.
+
+    Outcome → You can deploy FastAPI safely, scalably, and securely.
+
+    ------------------------------------------------------------
+    PHASE 7 — NETWORK DEBUGGING TOOLS
+    ------------------------------------------------------------
+    Essential tools to diagnose issues quickly.
+
+    • curl: Send requests and inspect API responses.
+    • ping: Check reachability of a host.
+    • traceroute: Show hops between client and server.
+    • nslookup: Check DNS resolution for a domain.
+    • netstat / ss: List active network connections and listening ports.
+
+    Outcome → You can fix "API not reachable" issues confidently.
+
+    ------------------------------------------------------------
+    PHASE 8 — END-TO-END TRACE DRILL
+    ------------------------------------------------------------
+    Visualize step-by-step request flow for mastery.
+
+    Browser / Client
+    → DNS lookup (get server IP)
+    → TCP handshake (SYN–ACK–ACK)
+    → TLS handshake (secure channel)
+    → HTTP request (headers + body)
+    → FastAPI app (Uvicorn parses request)
+    → AI model inference (internal compute)
+    → HTTP response (serialized + encrypted)
+    → Browser displays result
+
+    Outcome → You can mentally trace an AI request from user click to model output.
+
+    ------------------------------------------------------------
+    2-WEEK EXECUTION PLAN (PRACTICAL STUDY FLOW)
+    ------------------------------------------------------------
+    Day 1  - Network purpose + Client-Server
+    Day 2  - OSI vs TCP/IP
+    Day 3  - IP + NAT
+    Day 4  - TCP + Ports + Sockets
+    Day 5  - DNS
+    Day 6  - HTTP
+    Day 7  - HTTPS + TLS
+    Day 8  - FastAPI request lifecycle
+    Day 9  - Reverse proxy + Load balancer
+    Day 10 - Docker networking
+    Day 11 - Debugging tools
+    Day 12–14 - Full request tracing drills
+
+    ------------------------------------------------------------
+    THE 20% THAT GIVES 80% MASTERY
+    ------------------------------------------------------------
+    • TCP 3-way handshake → core of communication
+    • DNS resolution → how domains become reachable
+    • HTTP request/response → application-level structure
+    • TLS handshake → secure data in transit
+    • Reverse proxy (Nginx) → production-level routing
+    • FastAPI socket listening → app-level connectivity
+
+    Master these → You become production-ready for AI backend systems.
+    ============================================================

@@ -1,0 +1,85 @@
+12-MONTH PROJECT PLAN (CAPSTONE PER MONTH)
+
+Month 1 – DevOps-Ready Dev Server + Task REST API
+- Project: Dev server that:
+  - Serves a Task REST API (CRUD).
+  - Has request logging and basic error handling.
+  - Optionally exposes a tiny “LLM echo” route.
+- Stack: Node.js, Express, TypeScript, PostgreSQL, Docker (dev only).
+
+Month 2 – Authentication Service
+- Project: Auth microservice that:
+  - Handles signup/login with hashed passwords.
+  - Issues and verifies JWTs.
+  - Provides protected routes for other services.
+- Stack: Node.js, Express, TS, Postgres, JWT, bcrypt, basic migrations.
+
+Month 3 – Real-Time Collaboration Backend
+- Project: Collaboration backend (e.g., shared task board) that:
+  - Uses WebSockets for live updates.
+  - Uses Redis pub/sub for scaling and coordination.
+  - Applies rate limiting and clean API design.
+- Stack: Node.js, Express, WebSockets, Redis, basic API design.
+
+Month 4 – First AI Agent: Email Assistant
+- Project: Email assistant backend that:
+  - Receives email text via API.
+  - Uses LLM (OpenAI) to summarize, classify, or draft replies.
+  - Uses LangChain.js for prompts and function calling.
+- Stack: Node.js, Express, OpenAI API, LangChain.js.
+
+Month 5 – RAG Notes Service with Vector Memory
+- Project: Notes service that:
+  - Stores user notes.
+  - Builds embeddings and stores them in a vector DB.
+  - Implements RAG: retrieve notes and answer questions.
+- Stack: Node.js, Express, Postgres, vector DB (e.g., pgvector / external), LLM embeddings.
+
+Month 6 – Multi-Agent Support Chat Backend
+- Project: Support chat backend that:
+  - Uses WebSockets for chat.
+  - Routes messages across multiple specialist agents (FAQ, escalation, summarizer).
+  - Coordinates agents via a simple state machine or LangGraph.
+- Stack: Node.js, WebSockets, Redis, LangGraph or similar.
+
+Month 7 – Observability & AI SRE Copilot
+- Project: Observability layer that:
+  - Collects structured logs and basic metrics.
+  - Exposes an API to query logs.
+  - Uses an LLM to analyze logs and suggest causes/remedies (AI SRE copilot).
+- Stack: Node.js, logging/metrics library, LLM API, dashboards.
+
+Month 8 – CI/CD, Docker, Kubernetes & Scaling
+- Project: Deploy previous services:
+  - Containerized with multi-stage Dockerfiles.
+  - Automated tests + GitHub Actions CI/CD.
+  - Deployed to Kubernetes or PaaS with health checks and autoscaling.
+- Stack: Docker, GitHub Actions, Kubernetes (or managed PaaS).
+
+Month 9 – Security, OAuth2 & Protection Layer
+- Project: Security gateway that:
+  - Uses OAuth2/OIDC for user auth.
+  - Enforces RBAC for protected routes.
+  - Applies rate limiting, input validation, and basic WAF-style checks.
+- Stack: Node.js, OAuth2/OIDC provider, Express middleware, Redis.
+
+Month 10 – Data Pipelines & Event-Driven Agents
+- Project: Data pipeline for:
+  - Ingesting events (user actions, logs, etc.).
+  - Running ETL/ELT into a warehouse.
+  - Triggering agents in response to events (event-driven agents).
+- Stack: Node.js, message broker (Kafka/Redis streams), ETL scripts, optional Python integration.
+
+Month 11 – RL-Inspired Decision Service
+- Project: Decision service that:
+  - Routes traffic between variants (bandits/MAB).
+  - Logs outcomes and uses RL-style ideas to improve.
+  - Integrates with agents for better choices (e.g., which agent/tool to call).
+- Stack: Node.js, simple bandit algorithms, logging/metrics, offline analysis.
+
+Month 12 – Capstone AI Productivity Platform
+- Project: Multi-tenant SaaS platform that:
+  - Combines: auth, RAG, agents, observability, security, deployment.
+  - Provides a unified “productivity assistant” (tasks, notes, email, decisions).
+  - Has RBAC, billing-ready structure, and documented architecture.
+- Stack: Everything above, integrated.

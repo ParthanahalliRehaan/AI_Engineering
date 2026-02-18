@@ -1,0 +1,112 @@
+https://www.youtube.com/watch?v=-LNwvoSgMKE
+
+//For more info look into ../../../dotenv.txt
+
+            # =========================
+            # 1. Create a .env file
+            # =========================
+            touch .env
+
+            # Edit the file with nano/vim
+            nano .env
+
+            # Example .env content:
+            NODE_ENV=development
+            PORT=3000
+            DATABASE_URL=mongodb://localhost:27017/mydb
+            DEBUG=true
+            LOG_LEVEL=verbose
+
+
+            # =========================
+            # 2. Load .env in Node.js
+            # =========================
+            # Install dotenv
+            npm install dotenv
+
+            # index.js (top of file)
+            require('dotenv').config();
+
+            const port = process.env.PORT || 3000;
+            const dbUrl = process.env.DATABASE_URL;
+            const nodeEnv = process.env.NODE_ENV;
+
+            console.log(`Running on port ${port}`);
+            console.log(`Environment: ${nodeEnv}`);
+
+
+            # =========================
+            # 3. Set Environment Variables in Linux Bash
+            # =========================
+
+            # Temporary (only for current session)
+            export NODE_ENV=development
+            export PORT=3000
+
+            # Inline (for a single command)
+            NODE_ENV=production PORT=80 node index.js
+
+            # Persistent (always available)
+            # Add to ~/.bashrc or ~/.zshrc
+            export NODE_ENV=production
+            export PORT=80
+
+            # Reload shell config
+            source ~/.bashrc
+
+
+Theories
+
+                        In software development, there are **two primary types of environments**: **development** (the local machine for coding and testing) and **production** (the live server where the app runs for end users).
+
+                        ### **Why Separate Environments?**
+                        *   **Safety:** Test changes without breaking the live application.
+                        *   **Performance:** Optimize each setup for speed or debugging.
+                        *   **Configuration:** Apply different settings (like database links) to each environment.
+
+                        ### **Code Implementation: `process.env`**
+                        You access environment variables in Node.js via the `process.env` object.
+
+                        ```javascript
+                        // Set a port with a fallback value
+                        const port = process.env.PORT || 3000;
+
+                        // Access specific variables
+                        const dbUrl = process.env.DATABASE_URL;
+                        const nodeEnv = process.env.NODE_ENV;
+
+                        // Verify settings
+                        console.log(`Running on port ${port}`);
+                        console.log(`Environment: ${nodeEnv}`);
+                        ```
+
+                        ### **Environment Configurations (`.env`)**
+
+                        | Feature            | **Development Setup**          | **Production Setup**          |
+                        | **`NODE_ENV`**     | `development`                  | `production`                  |
+                        | **`PORT`**         | `3000`                         | `80`                          |
+                        | **`DATABASE_URL`** | Local MongoDB instance         | Cloud-based database          |
+                        | **`DEBUG`**        | `true`                         | `false`                       |
+                        | **`LOG_LEVEL`**    | `verbose`                      | `error`                       |
+                        | **Focus**          | Errors, logging, hot reloading | Performance, minimal exposure |
+
+                        ### **Managing Variables with `dotenv`**
+                        The `dotenv` package loads variables from a file into your app.
+
+                        **Install:**
+                        ```bash
+                        npm install dotenv
+                        ```
+
+                        **Initialize (Top of app):**
+                        ```javascript
+                        require('dotenv').config();
+                        ```
+
+                        ### **Security Best Practices**
+                        *   **`.gitignore`:** Always add `.env` here so it is **never committed** to a repository.
+                        *   **`.env.example`:** Create a template file to show required variables to other developers.
+                        *   **Vault Services:** Use these to secure secrets in production.
+                        *   **Documentation:** Use clear naming and descriptions for all variables.
+
+                        Would you like me to create a **tailored report** documenting these configuration steps in detail, or perhaps a **quiz** to test your knowledge of Node.js environment setup?

@@ -1,0 +1,96 @@
+12-MONTH THEORY PLAN (MATCHED TO PROJECTS) – PURE THEORY ONLY ie AFTER FILTERING FROM PROJECT PLAN
+
+MONTH 1 – CLI, HTTP, REST, Node/Express, TS, Postgres, Docker (Dev)
+- CLI & OS: shell, basic commands, running Node, npm.
+- HTTP & REST: methods, status codes, headers, JSON, routes.
+- Node.js runtime & async basics: event loop, callbacks, promises.
+- Express basics: routes, middleware, error handling.
+- TypeScript basics: types, interfaces, project setup.
+- PostgreSQL basics: tables, SQL DML, simple schema for tasks.
+- Docker basics: containerizing Node + Postgres for dev.
+
+MONTH 2 – Authentication & Identity
+- Auth vs authz, session vs token.
+- Password hashing & bcrypt; salting, verification.
+- JWT theory: structure, signing, verifying, expiry.
+- Auth middleware in Express; guarding routes.
+- Intro to migrations and schema evolution.
+- RBAC and basic security principles (least privilege).
+
+MONTH 3 – Real-Time & Scalability Basics
+- HTTP vs WebSockets; long-lived connections.
+- WebSocket protocol basics and lifecycle.
+- Redis: key–value, TTL, pub/sub.
+- Pub/sub pattern for cross-instance messaging.
+- Rate limiting strategies (IP/user-based, fixed-window, sliding).
+- API design: resource naming, pagination, error shapes.
+
+MONTH 4 – LLMs, Prompting, Tools (Email Agent)
+- LLM fundamentals: tokens, context, temperature.
+- OpenAI-style chat/completions APIs: request/response structure.
+- Prompt engineering basics: instructions, few-shot examples, formatting.
+- LangChain.js building blocks: LLM, prompt, chain, tool, memory.
+- Function calling/tool use: JSON schema for tools, tool selection, tool execution loop.
+- Email workflows: classification, summarization, drafting patterns.
+
+MONTH 5 – RAG & Vector Memory
+- Embeddings: concept, dimensions, similarity search.
+- Vector DB concepts: index, insert, search, metadata.
+- Document ingestion: loading, cleaning, splitting.
+- Chunking strategies and context windows.
+- RAG architecture: retrieve → augment → generate; prompts for RAG.
+- Caching retrievals; relevance vs hallucination.
+
+MONTH 6 – Multi-Agent Systems & LangGraph
+- Agent vs plain LLM: loops of perception → reasoning → action → observation.
+- Agent roles: planner, executor, critic, router.
+- State machines: states, transitions, events.
+- LangGraph concepts: nodes, edges, global state; branching/loops.
+- Multi-agent patterns: delegation, arbitration, consensus.
+- Error handling and safeguards in agent graphs.
+
+MONTH 7 – Observability & SRE for AI/Backends
+- Logging: structured logs, correlation IDs, log levels.
+- Metrics: counters, gauges, histograms; latency and error-rate.
+- Tracing: spans, trace IDs, propagation; tracing across services.
+- Log aggregation and querying.
+- SRE thinking: SLOs, SLIs, error budgets.
+- AI SRE copilot: using LLMs to interpret logs and incidents (conceptual).
+
+MONTH 8 – CI/CD, Docker, Kubernetes & Scaling
+- Git & GitHub: branches, PRs, reviews, tagging.
+- CI concepts: build, test, lint, quality gates.
+- CD concepts: deployments, rollbacks, release strategies.
+- Docker advanced: multi-stage builds, image slimming, security basics.
+- Kubernetes basics: pods, deployments, services, ingress, HPA.
+- Health checks: readiness, liveness, graceful shutdown.
+
+MONTH 9 – Security & OAuth2
+- Web security 101: OWASP top risks (XSS, SQLi, CSRF, SSRF).
+- Input validation, output encoding, sanitization.
+- OAuth2 & OIDC: roles, flows (auth code, implicit, client credentials).
+- Token management, scopes, refresh tokens.
+- API gateway patterns and protection (rate limits, throttles).
+- Defense in depth; zero trust basics.
+
+MONTH 10 – Data Pipelines, Events, and Streaming Agents
+- Data modeling for analytics vs OLTP.
+- ETL vs ELT; batch vs streaming.
+- Message brokers: topics, partitions, consumer groups.
+- Event-driven architecture: producers, consumers, event schemas.
+- Orchestrating agents from events (e.g., respond to user actions/logs).
+- Monitoring pipeline health and data quality.
+
+MONTH 11 – RL & Learning from Feedback
+- RL basics: MDP, states, actions, rewards, transitions.
+- Tabular methods: multi-armed bandits, Q-learning.
+- Offline RL-style loops for agents: using logs and feedback to update policies.
+- Multi-agent RL concepts: cooperation, competition, communication.
+- Practical evaluation of agents: success metrics, A/B tests.
+
+MONTH 12 – System Design & Productization for Agentic AI
+- System design: breaking the platform into services (auth, RAG, agents, orchestrator, observability).
+- Architectural patterns: microservices vs modular monolith, event-driven, CQRS (light).
+- Cost and performance: token costs, caching, batching, rate limits.
+- SaaS concerns: multi-tenancy, RBAC, tenancy isolation.
+- Documentation and storytelling: architecture diagrams, ADRs, case studies.
