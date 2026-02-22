@@ -14,9 +14,37 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import { checkEnvironment } from "../env.mjs";
 checkEnvironment();
 
-import openAI from 'openai';
+import openAI from 'OpenAI';
 const OpenAI = new openAI({
     apiKey: process.env.AI_KEY,
     baseURL: process.env.AI_URL,
     dangerouslyAllowBrowser: true //We should never store the API KEY in the frontend 
-})
+});
+
+//First AI request
+const prompt = "Tell me whats the model that I`m communicating!";
+console.log(`Sending prompt to AI Provider : ${prompt}`);
+try{
+    //response is also a promise
+    const response = await OpenAI.chat.completions.create({
+        model:process.env.AI_MODEL,
+        messages:[
+            {
+                role:"user",
+                content:prompt
+            }
+        ]
+    });
+    console.log(`response : ${response.choices[0].message.content}`);
+} catch(error) {
+    if(error.status === 401 || error.staus === 403 ) {
+        console.error("Authentication error: Check whether the API_KEY is revoked?");
+    } else if (error.status >=500 ) {
+        console.error("AI Provider error: Something went wrong on the Providers side, Please try after some time.");
+    } else {
+        console.error(
+            "Unexpected error",
+            error.message || error
+        );
+    }
+}

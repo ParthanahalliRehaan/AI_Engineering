@@ -2436,6 +2436,7 @@ product1.handleFavoriteProduct();
             async function getGithubUser() {
               try {    
                 const response = await fetch('https://api.github.com/users/laksjdflasjfdlkjadfjk');
+                console.log(response);
                 if (!response.ok) {
                   throw new Error(response.status);  
                 }
