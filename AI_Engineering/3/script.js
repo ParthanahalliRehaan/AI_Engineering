@@ -14,7 +14,7 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import { checkEnvironment } from "../env.mjs";
 checkEnvironment();
 
-import openAI from 'OpenAI';
+import openAI from 'openai';
 const OpenAI = new openAI({
     apiKey: process.env.AI_KEY,
     baseURL: process.env.AI_URL,
@@ -26,6 +26,9 @@ const prompt = "Tell me whats the model that I`m communicating!";
 console.log(`Sending prompt to AI Provider : ${prompt}`);
 try{
     //response is also a promise
+    //Chat completions
+    //A chat completion is essentially the bridge between your API request and the model’s conversational output.
+
     const response = await OpenAI.chat.completions.create({
         model:process.env.AI_MODEL,
         messages:[

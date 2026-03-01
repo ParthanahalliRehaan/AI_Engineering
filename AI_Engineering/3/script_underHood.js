@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
 import {fileURLToPath} from "url";
-import openai from "OpenAI";
+import openai from "openai";
 import { checkEnvironment } from "../env.mjs";
 // Resolve current directory of script.js
 const __filename = fileURLToPath(import.meta.url);
