@@ -31,7 +31,7 @@ export const config = {
   logLevel: process.env.LOG_LEVEL || "info",
 };
 
-    //If we just want to import a normal module dont use dotenv but if wanna .env we must use it.
+    //If we just want to import a normal module dont use dotenv but if wanna .env we must use it. Also if .env file is outside the current directory then we must config the dotenv as given below -
 
               // env.mjs
               import dotenv from "dotenv";

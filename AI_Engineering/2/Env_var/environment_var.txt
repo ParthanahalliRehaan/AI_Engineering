@@ -5,6 +5,9 @@
 # They act like hidden settings that programs can read at runtime.
 # Example: PATH tells Windows where to look for executables.
 
+# Note:
+# Never access env variables from frontend like script.js ie Always store env var in Backend like server.js
+
 # ----------------------------
 # 2. Why and when to use them?
 # ----------------------------
@@ -24,6 +27,16 @@
 #   -> Use secret managers (Azure Key Vault, AWS Secrets Manager, HashiCorp Vault)
 #      for production-grade protection.
 
+🐚 Universal shell loader (Bash/zsh/fish)
+export $(grep -v '^#' .env | xargs)
+
+💻 Universal PowerShell loade
+Get-Content .env | ForEach-Object {
+    if ($_ -match "^(.*?)=(.*)$") {
+        $env:$($matches[1]) = $matches[2]
+    }
+}
+
 # ----------------------------
 # 4. Setting environment variables in PowerShell (temporary, session-only)
 # ----------------------------
@@ -31,10 +44,18 @@ $env:DB_HOST = "localhost"   # Database host
 $env:DB_USER = "myuser"      # Database username
 $env:DB_PASS = "mypassword"  # Database password
 
-# Verify they are set
-echo $env:DB_HOST
-echo $env:DB_USER
-echo $env:DB_PASS
+bash
+export DB_HOST="localhost"   # Database host
+export DB_USER="myuser"      # Database username
+export DB_PASS="mypassword"  # Database password
+
+# Verify they are set -
+Powershell
+	echo $env:DB_HOST
+	echo $env:DB_USER
+	echo $env:DB_PASS
+Bash
+	echo $AI_URL
 
 # ----------------------------
 # 5. Making them permanent (persist across sessions)

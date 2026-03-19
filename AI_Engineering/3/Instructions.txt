@@ -1,3 +1,5 @@
+0. How to setup a basic node.js project - backend folder info given
+
 1. You started with a snippet:
    import { checkEnvironment } from "./utils.js"
    import OpenAI from "openai"
@@ -22,7 +24,7 @@
    - The audit warning appeared because openclaw was installed in your environment.
 
 5. Investigation:
-   - npm ls -g openclaw → showed nothing globally.
+   - npm ls -g open claw → showed nothing globally.
    - npm ls openclaw → showed openclaw@2026.2.13 invalid in C:\Users\rehaa\node_modules.
    - This happened because npm installed openclaw at the user directory level (no package.json in your project).
 
