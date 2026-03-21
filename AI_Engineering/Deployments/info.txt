@@ -1,0 +1,5 @@
+initially we faced problem with local host as it crashed because of some libraries so we saw 2 solutions bundlers aka vite n then we saw CDN
+After that I deployed in render through render n GitHub ofc.
+Then We deployed in cloudflare wrkrs
+
+Also for static page render was enough but in cloudflare we need to create a cloudflare pages.

@@ -1,0 +1,2 @@
+U can use cloudflare but it has its own server.mjs convention which u need to learn else use render as the zip files structure for Node 
+U can identify that its different from python FastAPI backend as there we used requirements.txt but here we use package.json
