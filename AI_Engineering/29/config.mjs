@@ -11,12 +11,11 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 if (!process.env.HF_API_KEY) {
     throw new Error("HuggingFace API key is missing or invalid.");
 }
-/**Huggingface config */
 export const hf = new HfInference(process.env.HF_API_KEY);
-
-/** Supabase config */
-const privateKey = process.env.SUPABASE_API_KEY;
-if (!privateKey) throw new Error(`Expected env var SUPABASE_API_KEY`);
-const url = process.env.SUPABASE_URL;
-if (!url) throw new Error(`Expected env var SUPABASE_URL`);
-export const supabase = createClient(url, privateKey);
+if(!process.env.SUPABASE_API_KEY){
+    throw new Error("Supabase API key missing or invalid");
+}
+if(!process.env.SUPABASE_URL){
+    throw new Error("Supabase URL missing or invalid");
+}
+export const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_API_KEY);
