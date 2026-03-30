@@ -42,7 +42,6 @@ async function main(input) {
       return { content: textChunk, embedding };
     })
   );
-
   console.log("All embeddings processed:");
 }
 
