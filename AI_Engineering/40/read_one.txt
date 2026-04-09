@@ -1,0 +1,40 @@
+The issue is that you're opening `index.html` **directly as a file** (via `file://` protocol), but your form submits to `/ask` — a backend route that only exists when your Express server is running.
+
+Here's what's happening step by step:
+
+## The Problem
+
+When you open `index.html` directly in your browser (`file:///...`), there is **no server running**. So when the form submits, the browser either:
+- Reloads the page (default form behavior), OR
+- Fails to reach `/ask` and your `e.preventDefault()` may not even run properly in that context
+
+Your `index.js` code is correct — `e.preventDefault()` is there — but the real issue is **you're not using your Express server at all**.
+
+## The Fix
+
+You need to run the Express server and access the app through it:
+
+1. **Start your server** in the terminal:
+   ```bash
+   node server.js
+   ```
+
+2. **Open the app** via the server URL, not the file:
+   ```
+   http://localhost:3000
+   ```
+   (or whatever PORT your `.env` sets)
+
+## Why It Works This Way
+
+Your `server.js` has this line :
+```js
+app.use(express.static(__dirname));
+```
+This tells Express to **serve your static files** (HTML, CSS, JS) from the same directory. So when you visit `http://localhost:3000`, Express serves your `index.html` — and `/ask` is reachable because the same server handles it.
+
+## Quick Checklist
+
+- ✅ Make sure your `.env` file has all required keys (`EMBED_MODEL`, `AI_MODEL`, Supabase URL/key, HuggingFace token, OpenAI key)
+- ✅ Run `node server.js` (or `npm start` if you've set it up)
+- ✅ Go to `http://localhost:3000` in your browser — never open the `.html` file directly
