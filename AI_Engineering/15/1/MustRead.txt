@@ -1,1 +1,0 @@
-Must do entire learning locally in the PC dont use service providers as Supabase or others.
