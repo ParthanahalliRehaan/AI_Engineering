@@ -17,42 +17,42 @@ A JavaScript Runtime Environment is a system that -
 
 4️⃣ Browser & Node.js — Why BOTH are Runtime Environments
 
-                                Browser Runtime
+                Browser Runtime
 
-                                                Provided by:
+                                Provided by:
 
-                                                Chrome
-                                                Firefox
-                                                Edge
+                                Chrome
+                                Firefox
+                                Edge
 
-                                                It gives JS:
+                                It gives JS:
 
-                                                window
-                                                document
-                                                DOM
-                                                events
-                                                timers
-                                                Web APIs
+                                window
+                                document
+                                DOM
+                                events
+                                timers
+                                Web APIs
 
 
 
-                                                JavaScript the language can ONLY do:
+                                JavaScript the language can ONLY do:
 
-                                                variables
-                                                functions
-                                                loops
-                                                logic
+                                variables
+                                functions
+                                loops
+                                logic
 
-                                                That’s it.
+                                That’s it.
 
-                                                JavaScript CANNOT:
-                                                read files
-                                                show UI
-                                                access network
-                                                listen to clicks
-                                                open ports
+                                JavaScript CANNOT:
+                                read files
+                                show UI
+                                access network
+                                listen to clicks
+                                open ports
 
-                                                👉 The runtime gives JS its powers.
+                                👉 The runtime gives JS its powers.
 
 
 
