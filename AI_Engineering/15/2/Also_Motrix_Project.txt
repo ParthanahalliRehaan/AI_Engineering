@@ -1,5 +1,0 @@
-https://github.com/RehaanParthanahlli/Motrix
-
-users/rehaa/Motrix
-
-Here use supabase and OAuth then understand what is internal flow and contexual knowlegde.

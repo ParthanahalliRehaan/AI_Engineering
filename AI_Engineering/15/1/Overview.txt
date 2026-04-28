@@ -1,0 +1,10 @@
+Product overview
+A gamified AI learning planner for absolute beginners who want to become full‑stack/AI engineers.
+
+The AI does not teach directly; it only plans daily tasks based on skill history, completion ticks, and how “busy” the user says they are today.
+
+Users see a 24‑hour quest list (small coding/reading tasks), mark them as done/not done, earn XP, and progress through levels like Web Rookie → AI Engineer.
+
+The system adapts pace and difficulty automatically: people who consistently finish tasks get more/harder tasks; people who miss tasks get fewer/easier/revision tasks, adjusted by their “super busy / normal / free” setting.
+
+You are learning and building in public: the curriculum mirrors your own learning path (HTML → CSS → JS → backend → APIs → AI).

@@ -1,7 +1,0 @@
-Do Language Translator ( PollyGlot ) And PopChoice together i.e, Make an app that suggest movies based on various languages.
-Create an App which provides both the services.
-
-first finish up motrix and understand the theories then do this big project locally ( Entire DB, Entire Authnr pipeline build by yourself ) 
-i.e, dont use services providers like Supabse. Also for more info about the projects go to scrimba and rewatch the instructions.
-
-Also HowToProceed file needs to be changed as PollyGlot and PopChoice is bieng done together as a project named "GlobeProbe".

@@ -1,0 +1,20 @@
+For Eg,
+🏯 PixelRonin.dev Level Ladder
+Pixel Novice → first steps, HTML basics
+
+Syntax Squire → CSS + beginner JS
+
+Code Samurai → deeper JS, backend basics
+
+API Shogun → mastering APIs, integrations
+
+Neural Ronin → first AI/ML quests
+
+AI Shogun → full‑stack + AI engineer
+
+Tips:
+    - New task each 24 Hours.
+    - After every 4-5 days energy booster like a anime fact or poster to download to stick on wall.
+    - Teach them Japanese Motivational phrases after each week to remember.
+    - After completion a cool merchandise free.
+    - Make the App profile like GitHub for Interview.

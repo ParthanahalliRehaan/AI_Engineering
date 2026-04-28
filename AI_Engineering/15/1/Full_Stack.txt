@@ -1,0 +1,87 @@
+Full tech stack (final version)
+Frontend
+Framework: Next.js (App Router) with TypeScript.
+
+UI:
+
+Tailwind CSS for rapid styling.
+
+shadcn/ui (or similar headless components) for consistent buttons, modals, inputs.
+
+State & data fetching:
+
+React Query or Next’s built‑in server actions/fetch patterns for calls to your APIs.
+
+Backend / API
+Main backend: Next.js Route Handlers (API routes) in TypeScript running on the same app (simple monolith to start).
+
+Responsibilities:
+
+CRUD for users, tasks, XP, daily stats.
+
+Auth-protected endpoints for marking tasks complete.
+
+Endpoints that trigger/generate daily plans (calling the AI service).
+
+Optional later flex: a small Go microservice for high‑throughput analytics or recommendation jobs if you want to show off another language.
+
+Database & storage
+Primary DB: PostgreSQL (Supabase or Neon).
+
+ORM: Prisma ORM for schema, migrations, and type-safe queries.
+
+Vector search:
+
+Either pgvector extension inside Postgres, or an external vector DB like Qdrant or Pinecone for embeddings of tasks, explanations, and user notes.
+
+AI & adaptive engine
+LLM provider(s): OpenAI / Anthropic / other hosted APIs.
+
+Purpose:
+
+Generate & adjust daily task lists based on user history, pace, and business level.
+
+Optionally generate hints/explanations, but core is task planning.
+
+Orchestration:
+
+Lightweight agent/graph framework (LangGraph/LangChain or similar in TS or Python) to implement the “daily planner agent”.
+
+Algorithms / logic:
+
+Use simple rule‑plus‑LLM: rules compute pace and target minutes; LLM chooses/phrases tasks within that budget.
+
+Auth & security
+Auth:
+
+Clerk, Auth.js, or Supabase Auth; all work well with Next.js.
+
+Security basics:
+
+HTTPS by default, secure cookies/sessions, rate limiting with Redis or Cloudflare.
+
+Infra, deployment, and ops
+Hosting:
+
+Vercel or Cloudflare Pages/Workers for the Next.js app.
+
+Background jobs:
+
+Cloudflare Cron Triggers / Workers or Vercel Cron to run the daily “generate tasks for each user” job.
+
+Caching & rate limiting:
+
+Upstash Redis or Cloudflare KV for caching AI results, XP summaries, and for protecting LLM APIs.
+
+Monitoring & analytics:
+
+Sentry for error tracking on frontend + backend.
+
+PostHog or Plausible for product analytics (funnel from signup → first quest → streaks).
+
+Dev experience
+Version control: Git + GitHub (branches, PRs, Issues).
+
+CI/CD: GitHub Actions → auto test, lint, typecheck → deploy to Vercel/Cloudflare.
+
+Editor: VS Code + ESLint + Prettier + maybe Copilot/Cursor to speed up boilerplate.
