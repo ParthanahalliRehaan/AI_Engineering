@@ -1,0 +1,28 @@
+`tsc` is the **TypeScript compiler**. It is the command that turns your `.ts` files into `.js` files that Node.js or browsers can actually run.
+
+## Simple mental model
+- You write code in **TypeScript** (`.ts`).
+- `tsc` **reads** your `.ts` file.
+- It **checks types** (interfaces, types, etc.).
+- Then it **removes the TypeScript syntax** and creates **plain JavaScript** (`.js`).
+
+## Why you need it
+- JavaScript engines only understand JavaScript, not `interface`, `: string`, or other TypeScript features.
+- `tsc` **strips those away** and gives you a clean `.js` file that Node can run.
+## How to see it in action
+If you run:
+```bash
+npx tsc app.ts
+```
+- it creates `app.js` next to `app.ts`.
+- you then run:
+  ```bash
+  node app.js
+  ```
+- `tsc` is **only the compiler**; it does **not** run your app.
+
+## For you as an AI architect
+- `tsc` is your “type gate” and **type checker**.
+- It lets you design complex object shapes and interfaces while still targeting plain JavaScript environments.
+
+`tsc` = TypeScript’s **translator** from typed‑dev code to plain JS that runs.

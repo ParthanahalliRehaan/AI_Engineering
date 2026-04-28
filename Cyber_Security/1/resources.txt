@@ -1,0 +1,3 @@
+CIA Triad - https://www.fortinet.com/resources/cyberglossary/cia-
+Hat Types - https://www.splunk.com/en_us/blog/learn/hacking-black-hat-vs-white-hat-vs-gray-hat.html
+Threat_Modelling - https://owasp.org/www-community/Threat_Modeling

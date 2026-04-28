@@ -1,0 +1,32 @@
+### 📦 What `npm install --save-dev` Means
+- **`npm install`** → Installs a package into your project.
+- **`--save-dev` (or `-D`)** → Marks the package as a **development dependency** instead of a regular dependency.
+
+### ⚖️ Difference Between Dependencies
+- **Regular dependencies (`--save`)**  
+  - Stored in `dependencies` inside `package.json`.  
+  - Needed when your app runs in production.  
+  - Example: `express` (your server won’t run without it).
+
+- **Development dependencies (`--save-dev`)**  
+  - Stored in `devDependencies` inside `package.json`.  
+  - Only needed during development, testing, or building.  
+  - Example: `jest` (for testing), `webpack` (for bundling), `eslint` (for linting).  
+  - These don’t get installed in production environments when you run `npm install --production`.
+
+### 🛠️ Why Use `--save-dev`?
+- Keeps your production environment **lean** (no unnecessary packages).  
+- Makes it clear which tools are **only for development**.  
+- Helps collaborators and deployment systems know what’s essential vs optional.
+
+### ✅ Example
+```bash
+npm install express --save
+# express goes into "dependencies"
+
+npm install jest --save-dev
+# jest goes into "devDependencies"
+```
+
+So in short:  
+👉 `--save-dev` is for tools you need while **building, testing, or debugging**, but not when your app is actually running in production.

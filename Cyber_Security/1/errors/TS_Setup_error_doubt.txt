@@ -1,0 +1,38 @@
+If you **don’t initialize a `tsconfig.json`** and just run:
+
+```bash
+npx tsc app.ts
+```
+
+then TypeScript will simply compile that single file using **default compiler options**. Here’s the difference:
+
+---
+
+### 🔹 With `tsconfig.json`
+- Acts like a **project manifest** for TypeScript.  
+- Defines rules: target (`ES6` vs `ESNext`), module system (`CommonJS`, `ESM`), strictness, output directory, etc.  
+- When present, TypeScript expects you to run `npx tsc` (no file arguments) so it compiles **all files listed in the config**.  
+- Running `npx tsc app.ts` while `tsconfig.json` exists causes the error you saw, because you’re mixing “project mode” with “single-file mode.”
+
+---
+
+### 🔹 Without `tsconfig.json`
+- TypeScript falls back to **default settings**:
+  - Target: ES3 (very old JS standard)
+  - Module: CommonJS
+  - Strictness: off
+  - Output: `.js` file in the same folder
+- You can still compile individual files (`npx tsc app.ts`), but you lose control over compiler behavior.  
+- This is fine for quick experiments, but not for real projects.
+
+---
+
+### ✅ Best Practice
+- For **one-off scripts**: skip `tsconfig.json`, just run `npx tsc file.ts`.  
+- For **projects**: always run `npx tsc --init` once, configure `tsconfig.json`, and then compile with `npx tsc`. That way, all files follow consistent rules.
+
+---
+
+So in short:  
+👉 If you don’t init, TypeScript just compiles with defaults.  
+👉 If you do init, you’re in “project mode” and should compile the whole project, not individual files.

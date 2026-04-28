@@ -1,0 +1,1 @@
+look at ../resources.txt for notes on hat types from splunk.

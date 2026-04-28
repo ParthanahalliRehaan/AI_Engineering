@@ -1,0 +1,116 @@
+COMMON MISUNDERSTANDINGS ABOUT TYPESCRIPT
+==================================================
+
+These are the main mistakes people make, based on what we just discussed.
+
+1. "TypeScript types exist at runtime"
+--------------------------------------
+WRONG MENTAL MODEL:
+- Many think interface User or : User is part of the running JavaScript.
+- They think console.log should somehow print the type or interface.
+
+CORRECT MENTAL MODEL:
+- TypeScript types and interfaces are ONLY for development.
+- tsc removes them during compilation.
+- After tsc runs, the final .js file has NO types.
+- console.log can print the real object (user), but NEVER the interface User.
+
+WHY THIS MATTERS FOR ARCHITECTS:
+- At runtime, everything is just JavaScript.
+- You still need runtime validation for data from APIs, forms, or outside sources.
+
+2. "TypeScript is a different programming language"
+----------------------------------------------------
+WRONG MENTAL MODEL:
+- Many think "I'm leaving JavaScript and writing TypeScript now."
+- They see TS as a completely separate language.
+
+CORRECT MENTAL MODEL:
+- TypeScript is JavaScript + extra type information.
+- Anything you can write in JavaScript, you can write in TypeScript.
+- After tsc compiles, your code is transformed back into plain JavaScript.
+- The engine still runs JavaScript, not "TypeScript."
+
+WHY THIS MATTERS FOR ARCHITECTS:
+- You're not learning a new language from scratch.
+- You're adding a design layer on top of JavaScript.
+
+3. "TypeScript removes all bugs"
+--------------------------------
+WRONG MENTAL MODEL:
+- Some think "If I use TypeScript, my code is now 100% safe."
+- They believe types magically prevent all runtime errors.
+
+CORRECT MENTAL MODEL:
+- TypeScript only checks BEFORE compile time.
+- It catches type mismatches and some design mistakes at build time.
+- But at runtime, you can still have:
+  - Data from APIs that doesn't match expectations
+  - Any usage (any, any[], etc.)
+  - TS ignore comments (@ts-ignore)
+  - Dynamic data from user inputs
+- TypeScript doesn't validate runtime data by default.
+
+WHY THIS MATTERS FOR ARCHITECTS:
+- TS is a safety net, not a magic shield.
+- You still need proper runtime validation and error handling.
+
+4. "Interfaces are like classes or objects in JS"
+-------------------------------------------------
+WRONG MENTAL MODEL:
+- Many think interface User is like:
+  - A class you can instantiate with new User()
+  - Or an object you can console.log(User)
+- They confuse interface with implementation.
+
+CORRECT MENTAL MODEL:
+- interface is ONLY a contract or blueprint.
+- It defines the shape that objects must follow.
+- You CANNOT:
+  - new User()
+  - console.log(User)
+  - or use it as a runtime value
+- You must create a REAL object that follows the interface:
+  const user: User = { name: "Asha", age: 20 };
+- Then console.log(user) works because user is a real object.
+
+WHY THIS MATTERS FOR ARCHITECTS:
+- interface is for design, not for building.
+- You define the contract first, then create instances.
+
+5. "We can just run node app.ts directly"
+-----------------------------------------
+WRONG MENTAL MODEL:
+- People see .ts file and assume Node will just run it directly.
+- They think "node app.ts should work like node app.js."
+
+CORRECT MENTAL MODEL:
+- Node traditionally runs JavaScript, not full TypeScript syntax.
+- TypeScript has extra syntax that Node's engine doesn't understand directly:
+  - interface declarations
+  - Type annotations (: string, : number, etc.)
+  - Some advanced type features
+- The classic workflow is:
+  Write .ts -> Compile with tsc -> Run .js with node
+- Even in Node versions that support running .ts directly, they're doing the same under the hood:
+  - Reading the .ts file
+  - Stripping types
+  - Running the JavaScript result
+
+WHY THIS MATTERS FOR ARCHITECTS:
+- You need to understand the compilation layer.
+- The runtime is still JavaScript, regardless of how you run it.
+
+SUMMARY MENTAL MODELS FOR ARCHITECTS
+====================================
+
+TypeScript types = compile-time guardrails, not runtime fuel.
+interface = schema, not structure.
+tsc = translator, not the runtime.
+node = only runs JavaScript, not TypeScript syntax.
+
+These misunderstandings are exactly why beginners get confused when:
+- console.log doesn't show interfaces
+- Runtime errors still happen even with perfect types
+- They can't instantiate an interface
+- Or they wonder why tsc is needed at all.

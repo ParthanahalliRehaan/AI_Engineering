@@ -1,0 +1,200 @@
+---
+
+# STEP-BY-STEP TYPESCRIPT SETUP AND RUN GUIDE
+=============================================
+
+GOAL
+----
+Create a TypeScript file, write an interface, create a real object from it, compile it, and run it in Node.js.
+
+MENTAL MODEL
+------------
+1. TypeScript = design-time language.  
+2. JavaScript = runtime language.  
+3. `tsc` = compiler that converts `.ts` → `.js`  
+4. `node` = runtime that executes `.js`
+
+WHY THIS FLOW EXISTS
+--------------------
+- Node.js runs JavaScript, not full TypeScript syntax.  
+- TypeScript adds things like:
+  - `interface`
+  - type annotations like `: string`  
+- These help developers while coding, but they are removed before execution.  
+- So the normal flow is:
+
+  **Write TypeScript → Compile with tsc → Run JavaScript with node**
+
+--------------------------------------------------
+STEP 1: CREATE A PROJECT FOLDER
+--------------------------------------------------
+1. Create a folder anywhere on your PC.  
+2. Open that folder in VS Code.  
+3. Open the terminal inside VS Code.  
+
+WHY: Keeps all files organized and ensures commands run in the right place.
+
+--------------------------------------------------
+STEP 2: INITIALIZE NODE PROJECT
+--------------------------------------------------
+Run:
+```bash
+npm init -y
+```
+
+Creates `package.json` (project identity card).
+
+--------------------------------------------------
+STEP 3: INSTALL TYPESCRIPT
+--------------------------------------------------
+Run:
+```bash
+npm install --save-dev typescript
+```
+
+Installs TypeScript locally for development.
+
+--------------------------------------------------
+STEP 4: CREATE TYPESCRIPT CONFIG
+--------------------------------------------------
+Run:
+```bash
+npx tsc --init
+```
+
+Creates `tsconfig.json` (compiler rulebook).
+
+--------------------------------------------------
+STEP 5: CREATE A TYPESCRIPT FILE
+--------------------------------------------------
+Create:
+```
+app.ts
+```
+
+--------------------------------------------------
+STEP 6: PASTE THIS CODE INTO app.ts
+--------------------------------------------------
+```typescript
+interface User {
+  name: string;
+  age: number;
+}
+
+const user: User = {
+  name: "Asha",
+  age: 20
+};
+
+console.log(user);
+console.log(user.name);
+console.log(user.age);
+```
+
+--------------------------------------------------
+STEP 7: UNDERSTAND THE CODE
+--------------------------------------------------
+- **Interface** = blueprint (design only, removed at runtime).  
+- **Object** = real data following the blueprint.  
+- **console.log** = prints runtime values.
+
+--------------------------------------------------
+STEP 8: COMPILE THE TYPESCRIPT FILE
+--------------------------------------------------
+Run:
+```bash
+npx tsc app.ts
+```
+
+Generates `app.js`.
+
+--------------------------------------------------
+STEP 9: RUN THE GENERATED JAVASCRIPT
+--------------------------------------------------
+Run:
+```bash
+node app.js
+```
+
+Expected output:
+```
+{ name: 'Asha', age: 20 }
+Asha
+20
+```
+
+--------------------------------------------------
+WHY NOT DIRECTLY RUN: node app.ts
+--------------------------------------------------
+Because Node only understands JavaScript. TypeScript syntax must be compiled first.
+
+--------------------------------------------------
+FULL COMMAND LIST TO COPY
+--------------------------------------------------
+```bash
+npm init -y
+npm install --save-dev typescript
+npx tsc --init
+```
+
+Create `app.ts` → paste code → compile → run:
+```bash
+npx tsc app.ts
+node app.js
+```
+
+--------------------------------------------------
+ARCHITECT SUMMARY
+--------------------------------------------------
+- **interface** = blueprint  
+- **object** = real data  
+- **tsc** = builder/compiler  
+- **node** = runner/runtime  
+
+Software architect mindset:  
+1. Define contract  
+2. Create data  
+3. Compile  
+4. Run
+---
+---
+
+# ERROR LOG ENTRY (TS5112)
+=============================================
+
+**Error Message**  
+```
+error TS5112: tsconfig.json is present but will not be loaded if files are specified on commandline. Use '--ignoreConfig' to skip this error.
+```
+
+**Cause**  
+- Triggered by running `npx tsc script.ts` while a `tsconfig.json` exists.  
+- TypeScript expects you to compile the whole project with `npx tsc`.  
+- Specifying a file bypasses the config, so the compiler complains.
+
+**Solution**  
+- **Option 1 (Recommended)**: Compile all files with config  
+  ```bash
+  npx tsc
+  ```
+- **Option 2**: Ignore config for one-off compilation  
+  ```bash
+  npx tsc script.ts --ignoreConfig
+  ```
+- **Option 3**: Use `ts-node` for direct execution (no `.js` output)  
+  First install ts-node:  
+  ```bash
+  npm install --save-dev ts-node
+  ```  
+  Then run:  
+  ```bash
+  npx ts-node script.ts
+  ```
+
+**Summary**  
+- Error caused by outdated workflow (specifying files directly).  
+- Fixed by compiling the whole project (`npx tsc`) or ignoring config.  
+- For quick experiments, install and use `ts-node` to run `.ts` files directly.  
+- For production builds, always use `npx tsc` with `tsconfig.json` to generate `.js` files.
+
+---

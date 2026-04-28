@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luci → AI Architect Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --void: #02030a;
+  --deep: #060818;
+  --surface: #0a0f1e;
+  --ray: #ffffff;
+  --glow: rgba(120,180,255,0.9);
+  --glow-soft: rgba(80,140,255,0.3);
+  --ts: #3178c6;
+  --ts-glow: rgba(49,120,198,0.6);
+  --py: #f7c948;
+  --py-glow: rgba(247,201,72,0.5);
+  --js: #f0db4f;
+  --ai: #00e5ff;
+  --ai-glow: rgba(0,229,255,0.5);
+  --rag: #ff6b9d;
+  --rag-glow: rgba(255,107,157,0.5);
+  --agent: #50fa7b;
+  --agent-glow: rgba(80,250,123,0.5);
+  --arch: #bd93f9;
+  --arch-glow: rgba(189,147,249,0.5);
+  --lead: #ff9f43;
+  --lead-glow: rgba(255,159,67,0.5);
+  --text: #c8d8f0;
+  --muted: #4a5a7a;
+  --dim: #1a2035;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── STARFIELD CANVAS ── */
+#stars { position:fixed;inset:0;z-index:0;pointer-events:none; }
+
+/* ── LAYOUT ── */
+.page { position:relative;z-index:1; }
+
+/* ── HEADER ── */
+.hero {
+  text-align: center;
+  padding: 70px 20px 40px;
+  position: relative;
+}
+
+.hero-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.8rem, 5vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: #fff;
+  text-shadow: 0 0 40px rgba(120,180,255,0.4);
+  margin-bottom: 12px;
+}
+
+.hero-title .accent { color: var(--ai); text-shadow: 0 0 30px var(--ai); }
+
+.hero-sub {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* stats row */
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin: 40px auto 0;
+  max-width: 700px;
+  border: 1px solid rgba(255,255,255,0.07);
+  overflow: hidden;
+}
+
+.stat-cell {
+  flex: 1;
+  padding: 16px 12px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  background: rgba(10,15,30,0.8);
+  transition: background 0.2s;
+}
+.stat-cell:last-child { border-right: none; }
+.stat-cell:hover { background: rgba(20,30,60,0.9); }
+
+.stat-n {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ai);
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-l { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+
+/* lang legend */
+.lang-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 24px auto;
+  flex-wrap: wrap;
+}
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.leg-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── THE RAY TIMELINE ── */
+.timeline-wrap {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 0 100px;
+}
+
+/* center beam */
+.beam {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(120,180,255,0.15) 3%,
+    rgba(150,200,255,0.6) 8%,
+    rgba(200,220,255,0.9) 15%,
+    rgba(255,255,255,1) 30%,
+    rgba(255,255,255,1) 70%,
+    rgba(200,220,255,0.9) 85%,
+    rgba(150,200,255,0.6) 92%,
+    rgba(120,180,255,0.15) 97%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 6px 1px rgba(150,200,255,0.4),
+    0 0 20px 3px rgba(120,180,255,0.2),
+    0 0 40px 6px rgba(100,160,255,0.1);
+}
+
+/* traveling light pulse on the beam */
+.beam-pulse {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 80px;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.95), transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 16px 6px rgba(180,220,255,0.8), 0 0 40px 12px rgba(120,180,255,0.4);
+  animation: pulseTravel 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes pulseTravel {
+  0%   { top: -80px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: calc(100% + 80px); opacity: 0; }
+}
+
+/* ── PHASE NODE (dot on beam) ── */
+.phase-node {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0;
+  min-height: 160px;
+}
+
+/* The dot on the beam */
+.beam-dot {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 30px);
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(150,200,255,0.2), 0 0 20px 6px rgba(150,200,255,0.5);
+  z-index: 5;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.beam-dot::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(150,200,255,0.3);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%,100%{ transform: scale(1); opacity: 0.5; }
+  50%    { transform: scale(1.4); opacity: 0; }
+}
+
+.phase-node:hover .beam-dot {
+  transform: translate(-50%, 30px) scale(1.3);
+  box-shadow: 0 0 0 6px rgba(150,200,255,0.3), 0 0 30px 10px rgba(150,200,255,0.6);
+}
+
+/* LEFT side panel */
+.phase-left {
+  width: calc(50% - 40px);
+  padding-right: 32px;
+  text-align: right;
+  padding-top: 16px;
+}
+
+/* RIGHT side panel */
+.phase-right {
+  width: calc(50% - 40px);
+  margin-left: calc(50% + 40px);
+  padding-left: 32px;
+  text-align: left;
+  padding-top: 16px;
+}
+
+/* branch line from beam dot to panel */
+.branch-line {
+  position: absolute;
+  top: 46px; /* aligns with dot center */
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--phase-color));
+  opacity: 0.5;
+  transition: opacity 0.3s, box-shadow 0.3s;
+  z-index: 3;
+}
+
+.branch-left {
+  right: calc(50% + 8px);
+  left: 0;
+  background: linear-gradient(90deg, transparent, var(--phase-color));
+}
+
+.branch-right {
+  left: calc(50% + 8px);
+  right: 0;
+  background: linear-gradient(90deg, var(--phase-color), transparent);
+}
+
+.phase-node:hover .branch-line {
+  opacity: 1;
+  box-shadow: 0 0 8px 2px var(--phase-color);
+}
+
+/* ── PHASE CARD ── */
+.phase-card {
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+  position: relative;
+}
+
+.phase-card::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height: 2px;
+  background: var(--phase-color);
+  box-shadow: 0 0 12px 2px var(--phase-color);
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.phase-card:hover {
+  border-color: rgba(255,255,255,0.15);
+  box-shadow: 0 0 30px -5px var(--phase-color);
+  transform: translateY(-2px);
+}
+
+.phase-card:hover::before { opacity: 1; }
+
+.card-head {
+  padding: 14px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.phase-right .card-head { align-items: flex-start; }
+.phase-left  .card-head { align-items: flex-end; }
+
+.card-tag {
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--phase-color);
+  opacity: 0.8;
+}
+
+.card-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.card-duration {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.card-preview {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 0 16px 14px;
+  line-height: 1.5;
+}
+
+/* expand toggle */
+.card-toggle {
+  padding: 8px 16px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--phase-color);
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.phase-right .card-toggle { justify-content: flex-start; }
+.phase-left  .card-toggle { justify-content: flex-end; }
+.phase-card:hover .card-toggle { opacity: 1; }
+
+.toggle-arrow { transition: transform 0.35s; font-size: 8px; }
+.phase-card.open .toggle-arrow { transform: rotate(180deg); }
+
+/* ── EXPANDED DETAIL PANEL ── */
+.card-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  border-top: 0px solid rgba(255,255,255,0.05);
+}
+
+.phase-card.open .card-detail {
+  max-height: 3000px;
+  border-top-width: 1px;
+}
+
+.detail-inner {
+  padding: 16px;
+}
+
+/* topic group */
+.topic-group {
+  margin-bottom: 16px;
+}
+
+.tg-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--phase-color);
+  opacity: 0.7;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.topic-list { list-style: none; }
+
+.topic-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: color 0.2s;
+}
+
+.topic-item:last-child { border-bottom: none; }
+.topic-item:hover { color: #fff; }
+
+.phase-left .topic-item { flex-direction: row-reverse; text-align: right; }
+
+.topic-bullet {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--phase-color);
+  flex-shrink: 0;
+  margin-top: 6px;
+  box-shadow: 0 0 6px 2px var(--phase-color);
+}
+
+/* lang badges on topics */
+.lang-badge {
+  display: inline-block;
+  font-family: 'Orbitron', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 1px solid;
+  vertical-align: middle;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-ts  { color: var(--ts);  border-color: var(--ts);  background: rgba(49,120,198,0.12); }
+.badge-py  { color: var(--py);  border-color: var(--py);  background: rgba(247,201,72,0.10); }
+.badge-js  { color: var(--js);  border-color: var(--js);  background: rgba(240,219,79,0.10); }
+.badge-both{ color: #a0c0ff; border-color: rgba(160,192,255,0.4); background: rgba(160,192,255,0.06); }
+
+/* project pill inside detail */
+.project-pill {
+  display: inline-block;
+  margin: 4px 2px;
+  padding: 3px 10px;
+  border: 1px solid var(--phase-color);
+  border-radius: 20px;
+  font-size: 10px;
+  color: var(--phase-color);
+  background: rgba(0,0,0,0.3);
+  opacity: 0.8;
+}
+
+/* milestone box */
+.milestone-box {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.4);
+  border-left: 2px solid var(--phase-color);
+  font-size: 11px;
+  color: var(--text);
+  line-height: 1.6;
+}
+.milestone-box strong { color: var(--phase-color); }
+
+/* phase connector spacer */
+.node-spacer { height: 40px; }
+
+/* ── MONTH MARKERS ── */
+.month-marker {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  background: var(--void);
+  padding: 2px 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  z-index: 6;
+  white-space: nowrap;
+}
+
+/* ── FINAL DESTINATION ── */
+.destination {
+  text-align: center;
+  padding: 40px 20px 80px;
+  position: relative;
+}
+
+.dest-beam-end {
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), transparent);
+  margin: 0 auto;
+  box-shadow: 0 0 20px 4px rgba(150,200,255,0.4);
+}
+
+.dest-orb {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff 0%, var(--arch) 40%, var(--ai) 70%, transparent 100%);
+  margin: 0 auto 24px;
+  box-shadow:
+    0 0 0 8px rgba(189,147,249,0.15),
+    0 0 0 20px rgba(189,147,249,0.08),
+    0 0 60px 20px rgba(189,147,249,0.3),
+    0 0 100px 40px rgba(0,229,255,0.15);
+  animation: orbPulse 3s ease-in-out infinite;
+}
+
+@keyframes orbPulse {
+  0%,100%{ box-shadow: 0 0 0 8px rgba(189,147,249,0.15), 0 0 0 20px rgba(189,147,249,0.08), 0 0 60px 20px rgba(189,147,249,0.3), 0 0 100px 40px rgba(0,229,255,0.15); }
+  50%    { box-shadow: 0 0 0 12px rgba(189,147,249,0.2), 0 0 0 28px rgba(189,147,249,0.1), 0 0 80px 30px rgba(189,147,249,0.4), 0 0 140px 60px rgba(0,229,255,0.2); }
+}
+
+.dest-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.2rem, 4vw, 2.2rem);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 30px rgba(189,147,249,0.5);
+  margin-bottom: 8px;
+}
+
+.dest-sub {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width: 700px) {
+  .phase-node { flex-direction: column; min-height: auto; margin-bottom: 40px; }
+  .phase-left, .phase-right {
+    width: calc(100% - 60px);
+    margin-left: 60px;
+    text-align: left;
+    padding: 0 0 0 16px;
+    padding-top: 12px;
+  }
+  .phase-left { padding-right: 0; }
+  .beam { left: 30px; transform: none; }
+  .beam-dot { left: 30px; transform: translate(-50%, 20px); }
+  .branch-left, .branch-right { display: none; }
+  .card-head, .phase-left .card-head { align-items: flex-start; }
+  .phase-left .topic-item { flex-direction: row; text-align: left; }
+  .phase-left .card-toggle { justify-content: flex-start; }
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb { background: rgba(150,200,255,0.2); border-radius: 3px; }
+
+/* glow animation on open */
+@keyframes cardGlow {
+  from { box-shadow: 0 0 0px transparent; }
+  to   { box-shadow: 0 0 40px -5px var(--phase-color); }
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="page">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">// Luci · ParthanahalliRehaan · April 2026</div>
+  <h1 class="hero-title">JS → TS → PY →<br/><span class="accent">AI ARCHITECT</span></h1>
+  <p class="hero-sub">14 months · 1–2 hrs/day · every topic mapped</p>
+
+  <div class="stats-row">
+    <div class="stat-cell"><span class="stat-n">14</span><span class="stat-l">Months</span></div>
+    <div class="stat-cell"><span class="stat-n">5</span><span class="stat-l">Phases</span></div>
+    <div class="stat-cell"><span class="stat-n">2</span><span class="stat-l">Scrimba Courses</span></div>
+    <div class="stat-cell"><span class="stat-n">3</span><span class="stat-l">Languages</span></div>
+    <div class="stat-cell"><span class="stat-n">∞</span><span class="stat-l">Build Always</span></div>
+  </div>
+
+  <div class="lang-legend" style="margin-top:20px;">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--js)"></div>JavaScript / Scrimba</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ts)"></div>TypeScript — Product layer</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--py)"></div>Python — Model layer</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ai)"></div>AI / Architecture</div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline-wrap" id="timelineWrap">
+  <div class="beam"></div>
+  <div class="beam-pulse"></div>
+
+  <!-- ═══════════════ PHASE 1 ═══════════════ -->
+  <div class="phase-node" style="--phase-color: var(--js);">
+    <div class="branch-line branch-left" style="--phase-color: var(--js);"></div>
+    <div class="beam-dot" style="background: var(--js); box-shadow: 0 0 0 4px rgba(240,219,79,0.2), 0 0 20px 6px rgba(240,219,79,0.5);"></div>
+
+    <!-- LEFT: empty spacer on this alternating node -->
+    <div class="phase-left">
+      <div style="font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-align:right;padding-top:30px;">
+        MONTH 1–3
+      </div>
+    </div>
+
+    <!-- RIGHT: Phase card -->
+    <div class="phase-right">
+      <div class="phase-card" style="--phase-color: var(--js);" onclick="toggleCard(this)">
+        <div class="card-head">
+          <div class="card-tag">Phase 01 · Scrimba Course 1</div>
+          <div class="card-title">JavaScript Deep Dive</div>
+          <div class="card-duration">Months 1–3 · ~75 hrs · 112 lessons</div>
+        </div>
+        <div class="card-preview">Master JS internals that power every AI pattern. You can skim early modules — go deep on async, classes, and generators.</div>
+        <div class="card-toggle"><span class="toggle-arrow">▼</span> <span>Expand all topics</span></div>
+        <div class="card-detail">
+          <div class="detail-inner">
+
+            <div class="topic-group">
+              <div class="tg-label">Module 1–2 · Variables, Types & Control Flow</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>var vs let vs const — hoisting, temporal dead zone, block scope</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Primitive types: string, number, boolean, null, undefined, symbol, BigInt</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Type coercion — loose vs strict equality, truthy/falsy edge cases</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Conditionals — if/else, ternary, switch, nullish coalescing (??) , optional chaining (?.)</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Loops — for, while, do-while, for...of, for...in, forEach</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Template literals — tagged templates, multi-line strings</span><span class="lang-badge badge-js">JS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 3 · Functions Deep</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Function declarations vs expressions vs arrow functions</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Closures — lexical scope, scope chain, closure over loops</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>IIFE (Immediately Invoked Function Expressions)</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Higher-order functions — functions that take / return functions</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Currying and partial application</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Pure functions vs side effects — why this matters in AI pipelines</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Function composition — pipe(), compose() patterns</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Default params, rest params (...args), spread operator</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Memoization — caching expensive function results</span><span class="lang-badge badge-js">JS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 4 · Objects, Arrays & Data Structures</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Object literals — shorthand, computed property names, getters/setters</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Destructuring — objects, arrays, nested, with defaults</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Spread / rest in objects and arrays</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Array methods: map, filter, reduce, find, findIndex, some, every, flat, flatMap, sort</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Map and Set — when to use over plain objects/arrays</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>WeakMap, WeakSet — memory management, private data patterns</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Object.keys(), values(), entries(), assign(), freeze()</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Cloning — shallow vs deep clone (structuredClone)</span><span class="lang-badge badge-js">JS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 5 · Capstone — Hacker News Clone</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Fetch API — GET requests, JSON parsing, error handling</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>DOM manipulation — querySelector, event listeners, innerHTML</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Routing — hash-based SPA routing from scratch</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>State management — centralized state object, render cycle</span><span class="lang-badge badge-js">JS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 6–7 · Async JavaScript ⚡ SLOW DOWN HERE</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>The Event Loop — call stack, Web APIs, callback queue, microtask queue</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Callbacks — callback hell, pyramid of doom, why we moved on</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Promises — .then(), .catch(), .finally(), Promise states</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Promise.all — parallel calls, fail-fast behaviour</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Promise.allSettled — parallel calls, no fail-fast</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Promise.race, Promise.any — first-to-resolve patterns</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>async/await — syntax sugar over Promises, error handling with try/catch</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Microtasks vs macrotasks — ordering, setTimeout vs Promise.resolve</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Generators — function*, yield, iterator protocol</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Async generators — async function*, for await...of — KEY for LLM streaming</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Custom Promise — build from scratch using resolve/reject</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>AbortController — cancelling fetch, timing out API calls</span><span class="lang-badge badge-js">JS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 8–9 · Classes, Prototypes & Design Patterns</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Prototype chain — how JS inheritance actually works under the hood</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>ES6 Classes — constructor, methods, static methods, extends</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Private fields (#) and private methods — encapsulation</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>this keyword — binding, call(), apply(), bind()</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Observer pattern — EventEmitter, pub/sub for streaming AI responses</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Factory pattern — creating objects without new</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Singleton pattern — one instance, global config/state</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Middleware pattern — chaining functions (like Express.js)</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Proxy and Reflect — metaprogramming, intercepting operations</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Symbol — unique identifiers, well-known symbols (Symbol.iterator)</span><span class="lang-badge badge-js">JS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 10–12 · Modules, Performance & Capstone</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>ES Modules — import/export, named vs default, re-exports</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Dynamic imports — import() for lazy loading AI models in CF Workers</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>CommonJS vs ESM — require() vs import, why it matters for bundles</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Tree-shaking — dead code elimination, bundle size control</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Debounce and throttle — controlling function call frequency</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Error types — Error, TypeError, RangeError, custom error classes</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>try/catch/finally — error propagation, re-throwing</span><span class="lang-badge badge-js">JS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Capstone: Notes App — full SPA with state, routing, localStorage</span><span class="lang-badge badge-js">JS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Apply to your projects</div>
+              <div><span class="project-pill">🎬 Movie RAG — async data pipeline</span><span class="project-pill">🔐 Motrix — refactor with classes</span><span class="project-pill">⌨️ Motor Skill Trainer v2</span></div>
+            </div>
+
+            <div class="milestone-box">
+              <strong>✦ Phase Gate:</strong> Before moving on — can you write a custom Promise from scratch, explain microtasks vs macrotasks, AND build a streaming generator? If yes, you're ready for the AI course.
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node-spacer"></div>
+
+  <!-- ═══════════════ PHASE 2 ═══════════════ -->
+  <div class="phase-node" style="--phase-color: var(--ts);">
+    <div class="branch-line branch-right" style="--phase-color: var(--ts);"></div>
+    <div class="beam-dot" style="background: var(--ts); box-shadow: 0 0 0 4px rgba(49,120,198,0.2), 0 0 20px 6px rgba(49,120,198,0.6);"></div>
+
+    <!-- LEFT: Phase card -->
+    <div class="phase-left">
+      <div class="phase-card" style="--phase-color: var(--ts);" onclick="toggleCard(this)">
+        <div class="card-head">
+          <div class="card-tag">Phase 02 · TypeScript Layer</div>
+          <div class="card-title">TypeScript Strict Mode</div>
+          <div class="card-duration">Month 3 (parallel) · 30 min/day alongside JS</div>
+        </div>
+        <div class="card-preview">Type your AI pipelines from day one. LLM outputs are untyped JSON — Zod + TypeScript is your first line of defence.</div>
+        <div class="card-toggle"><span class="toggle-arrow">▼</span> <span>Expand all topics</span></div>
+        <div class="card-detail">
+          <div class="detail-inner">
+
+            <div class="topic-group">
+              <div class="tg-label">TypeScript Fundamentals</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>TypeScript setup — tsconfig.json, strict: true, target, module</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Basic types — string, number, boolean, null, undefined, any, unknown, never</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Type inference vs explicit annotation — when to annotate, when not to</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Interfaces vs type aliases — when to use each</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Union types (A | B), intersection types (A & B)</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Optional properties (?), readonly, required</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Enums vs const enums vs union string literals</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Generics — T, constraints (extends), generic functions, generic classes</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Advanced TypeScript for AI Apps</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Utility types — Partial, Required, Pick, Omit, Record, Readonly, ReturnType</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Discriminated unions — type-safe state machines for agent states</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Type guards — typeof, instanceof, custom (is) guards</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Branded types — making string subtypes (e.g. UserId, EmbeddingVector)</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Template literal types — typed string patterns</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Async typed functions — Promise&lt;T&gt;, async functions with generics</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Zod — runtime schema validation of LLM JSON outputs</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Zod .parse() vs .safeParse() — handling validation errors gracefully</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Typed Supabase client — generating types from DB schema</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Cloudflare Workers TypeScript setup — wrangler + type bindings</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="milestone-box">
+              <strong>✦ TS Goal:</strong> By Month 3, every new file you write is TypeScript. Zod validates every LLM response. Your Supabase client is fully typed. This prevents an entire class of AI pipeline bugs.
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: month label -->
+    <div class="phase-right">
+      <div style="font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);padding-top:30px;">
+        MONTH 3 (PARALLEL)
+      </div>
+    </div>
+  </div>
+
+  <div class="node-spacer"></div>
+
+  <!-- ═══════════════ PHASE 3 ═══════════════ -->
+  <div class="phase-node" style="--phase-color: var(--ai);">
+    <div class="branch-line branch-left" style="--phase-color: var(--ai);"></div>
+    <div class="beam-dot" style="background: var(--ai); box-shadow: 0 0 0 4px rgba(0,229,255,0.2), 0 0 20px 6px rgba(0,229,255,0.6);"></div>
+
+    <!-- LEFT: month label -->
+    <div class="phase-left">
+      <div style="font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-align:right;padding-top:30px;">
+        MONTH 4–6
+      </div>
+    </div>
+
+    <!-- RIGHT: Phase card -->
+    <div class="phase-right">
+      <div class="phase-card" style="--phase-color: var(--ai);" onclick="toggleCard(this)">
+        <div class="card-head">
+          <div class="card-tag">Phase 03 · Scrimba Course 2</div>
+          <div class="card-title">AI Engineer Path</div>
+          <div class="card-duration">Months 4–6 · ~90 hrs · 142 lessons · 8 modules</div>
+        </div>
+        <div class="card-preview">LLMs, prompts, embeddings, RAG, agents, MCP. The course you came here for — in TypeScript throughout.</div>
+        <div class="card-toggle"><span class="toggle-arrow">▼</span> <span>Expand all topics</span></div>
+        <div class="card-detail">
+          <div class="detail-inner">
+
+            <div class="topic-group">
+              <div class="tg-label">Module 1 · OpenAI API Fundamentals</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>OpenAI SDK setup — API key, client init, TypeScript types</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>chat.completions.create — messages array, roles (system/user/assistant)</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Tokens — what they are, how counted, input vs output cost</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Parameters — temperature, top_p, max_tokens, frequency_penalty, presence_penalty</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Streaming — stream: true, ReadableStream, async iteration of chunks</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Models — GPT-4o, GPT-4o-mini, GPT-3.5-turbo — capability/cost trade-offs</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Rate limiting — 429 errors, exponential backoff, retry wrapper</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Error handling — OpenAIError types, network failures, timeout</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Project: Stock Analyser — GPT-4 + financial data</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Project: Translation App — multi-language completions</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 2 · Prompt Engineering</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>System prompts — role, constraints, output format, fallback behaviour</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Zero-shot, one-shot, few-shot prompting</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Chain-of-thought (CoT) — "think step by step", scratchpad reasoning</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Structured output — JSON mode, response_format, Zod validation</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Prompt injection — attack vectors, defence strategies</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Prompt versioning — treating prompts like code (git commits)</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Prompt chaining — output of one prompt as input to next</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Context stuffing vs context engineering — token budget decisions</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 3 · Assistants API</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Assistants API — creating assistants, threads, messages, runs</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Threads — persistent conversation state, message history</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>File search tool — vector store, file uploads, semantic retrieval</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Code interpreter — running code in sandboxed environment</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Function calling — tool definitions, tool_choice, parsing tool calls</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Run lifecycle — queued, in_progress, requires_action, completed</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Polling vs streaming runs — run.stream() vs run.poll()</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 4 · Embeddings & Semantic Search</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>What are embeddings — vectors, dimensions, semantic meaning</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>OpenAI text-embedding-3-small / text-embedding-3-large</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Hugging Face Inference API — embedding with JS SDK</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Cosine similarity — formula, implementation from scratch</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Supabase pgvector — storing vectors, ivfflat index, hnsw index</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>match_documents() — Supabase RPC for vector similarity search</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Embedding model consistency — same model for ingestion and query</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Metadata filtering alongside vector search</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 5 · RAG Architecture</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>RAG pipeline — query → embed → retrieve → augment → generate → respond</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Chunking strategies — fixed-size, sentence, paragraph, semantic</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Chunk size trade-offs — too large (noise), too small (loss of context)</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Chunk overlap — preserving context across boundaries</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Metadata strategy — title, source, date, chunk index per vector</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Top-K retrieval — choosing K, similarity thresholds</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Augmented prompt construction — system + retrieved context + user query</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Hallucination prevention — grounding instructions in system prompt</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>🎬 Movie RAG App — full build with HuggingFace + Supabase pgvector + OpenAI</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 6 · Vision & Image Generation</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>GPT-4 Vision — image inputs, base64 vs URL, detail level</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Multi-modal prompts — combining text + image in messages array</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>DALL·E 3 — image generation, prompt design, sizes, quality</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Image generation prompt engineering — style, composition, negative prompts</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Storing and serving generated images — Supabase storage</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 7 · AI Agents & Tool Calling</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>ReAct pattern — Reasoning + Acting loop (Thought → Action → Observation)</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Tool / function calling — defining tools as JSON Schema</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Tool descriptions — writing descriptions the LLM understands precisely</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Parsing tool_calls from LLM response — executing real functions</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Agent loop — iterating until finish_reason is "stop"</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Max iterations guard — preventing infinite loops</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Project: Personal AI Assistant — multi-tool agent</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Project: Travel Planner Agent — external API tool calls</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Module 8 · MCP, Context Engineering & Capstone</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>MCP (Model Context Protocol) — what it is, why it's the new standard</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>MCP server — building a TypeScript MCP server with @modelcontextprotocol/sdk</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>MCP tools, resources, prompts — the three primitives</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Context window — how it fills up, why it degrades quality</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Context compression — summarization, sliding window, entity extraction</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Conversation memory strategies — sliding window, summary, vector memory</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Multi-modal context — mixing images, text, tool results in one context</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Projects built during Phase 3</div>
+              <div>
+                <span class="project-pill">🎬 Movie RAG App (ship by Month 6)</span>
+                <span class="project-pill">🔐 Motrix AI Anomaly Detection</span>
+                <span class="project-pill">🤖 Personal Assistant Agent</span>
+                <span class="project-pill">✈️ Travel Planner Agent</span>
+              </div>
+            </div>
+
+            <div class="milestone-box">
+              <strong>✦ Phase Gate:</strong> Ship Movie RAG app with full pipeline, streaming UI, documented architecture, and deployed on Cloudflare Pages. This is your first AI portfolio piece.
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node-spacer"></div>
+
+  <!-- ═══════════════ PHASE 4 — Python starts ═══════════════ -->
+  <div class="phase-node" style="--phase-color: var(--rag);">
+    <div class="branch-line branch-right" style="--phase-color: var(--rag);"></div>
+    <div class="beam-dot" style="background: var(--rag); box-shadow: 0 0 0 4px rgba(255,107,157,0.2), 0 0 20px 6px rgba(255,107,157,0.6);"></div>
+
+    <!-- LEFT: Phase card -->
+    <div class="phase-left">
+      <div class="phase-card" style="--phase-color: var(--rag);" onclick="toggleCard(this)">
+        <div class="card-head">
+          <div class="card-tag">Phase 04 · Beyond Scrimba</div>
+          <div class="card-title">Production AI Engineering</div>
+          <div class="card-duration">Months 7–9 · TypeScript product layer + Python model layer</div>
+        </div>
+        <div class="card-preview">LangGraph, Advanced RAG, Observability in TypeScript. Fine-tuning and evals in Python — the layer that needs it.</div>
+        <div class="card-toggle"><span class="toggle-arrow">▼</span> <span>Expand all topics</span></div>
+        <div class="card-detail">
+          <div class="detail-inner">
+
+            <div class="topic-group">
+              <div class="tg-label">LangChain JS + LangGraph — TypeScript</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>LangChain JS — chains, LCEL (LangChain Expression Language), runnables</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>LangGraph — stateful agent graphs, nodes, edges, conditional routing</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>StateGraph — defining state schema, reducers, checkpointing</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Multi-agent orchestration — supervisor node, worker agents, message passing</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Human-in-the-loop — interrupt, approval nodes, resuming graphs</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>LangSmith — tracing, logging, debugging, evaluating runs</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Advanced RAG — TypeScript</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Hybrid search — combining keyword (BM25) + vector search</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Reranking — Cohere Rerank, cross-encoder models</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>HyDE (Hypothetical Document Embedding) — generating hypothetical answers</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Parent-child chunking — small retrieval chunks, large context chunks</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Semantic caching — caching by query similarity, not exact match</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Supabase pgvector indexing — HNSW vs IVFFlat, when to use each</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Cloudflare AI Workers — TypeScript</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Workers AI — running Llama 3, Whisper, SDXL at the edge</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>AI bindings — env.AI, supported models, inference at edge</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>KV + AI — caching responses, storing embeddings at edge</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Durable Objects — stateful AI sessions at the edge</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Vectorize — Cloudflare's native vector DB (alternative to Supabase pgvector)</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">🐍 Python — Model Layer (30 min/day from Month 7)</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Python basics — syntax, lists, dicts, comprehensions, f-strings</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Virtual environments — venv, pip, requirements.txt</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Hugging Face transformers library — pipeline(), AutoModel, AutoTokenizer</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Fine-tuning with PEFT — LoRA, QLoRA — adapting base models</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Training data preparation — datasets library, formatting for instruction tuning</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Hugging Face Hub — pushing/pulling models, model cards</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>ONNX export — converting HF models for JS/edge inference</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>RAGAS — RAG evaluation framework (Faithfulness, Answer Relevance, Context Precision)</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>DeepEval — unit testing for LLM outputs</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Pandas — data manipulation, cleaning training datasets</span><span class="lang-badge badge-py">PY</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Resources</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>DeepLearning.AI short courses — free, world-class (LangChain, RAG, Agents)</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>LangChain JS + LangGraph docs — langgraph.js tutorials</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Hugging Face NLP + Agents course (free)</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Cloudflare Workers AI docs + examples</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>UC Berkeley LLM Agents course (free, YouTube)</span><span class="lang-badge badge-both">Both</span></li>
+              </ul>
+            </div>
+
+            <div class="milestone-box">
+              <strong>✦ Phase Gate:</strong> Build one deployed multi-agent system using LangGraph (TS) with 3+ tools, full observability via LangSmith. Run RAGAS eval on Movie RAG pipeline. Fine-tune one small model with Python. These three things together = production AI engineer.
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: month label -->
+    <div class="phase-right">
+      <div style="font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);padding-top:30px;">
+        MONTH 7–9
+      </div>
+    </div>
+  </div>
+
+  <div class="node-spacer"></div>
+
+  <!-- ═══════════════ PHASE 5 ═══════════════ -->
+  <div class="phase-node" style="--phase-color: var(--arch);">
+    <div class="branch-line branch-left" style="--phase-color: var(--arch);"></div>
+    <div class="beam-dot" style="background: var(--arch); box-shadow: 0 0 0 4px rgba(189,147,249,0.2), 0 0 20px 6px rgba(189,147,249,0.6);"></div>
+
+    <!-- LEFT: month label -->
+    <div class="phase-left">
+      <div style="font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-align:right;padding-top:30px;">
+        MONTH 9–12
+      </div>
+    </div>
+
+    <!-- RIGHT: Phase card -->
+    <div class="phase-right">
+      <div class="phase-card" style="--phase-color: var(--arch);" onclick="toggleCard(this)">
+        <div class="card-head">
+          <div class="card-tag">Phase 05 · The Leap</div>
+          <div class="card-title">AI Architect Foundations</div>
+          <div class="card-duration">Months 9–12 · System design, cloud AI, decision frameworks</div>
+        </div>
+        <div class="card-preview">Think in systems, not features. Design AI stacks that survive production. This is where engineer → architect happens.</div>
+        <div class="card-toggle"><span class="toggle-arrow">▼</span> <span>Expand all topics</span></div>
+        <div class="card-detail">
+          <div class="detail-inner">
+
+            <div class="topic-group">
+              <div class="tg-label">LLM System Design</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>End-to-end design — data ingestion → pipeline → serving → monitoring</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Model selection framework — open-source vs API vs fine-tuned decision matrix</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Latency vs quality trade-offs — when to use small vs large models</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Cost architecture — token budgeting, caching strategy, batching</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Multi-modal system design — vision + text + audio pipelines</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Fallback strategy — primary LLM down → switch model or serve cache</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Context engineering at scale — compression, summarization pipelines</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">MLOps & Production AI — Both Languages</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>CI/CD for AI — testing prompts, automated eval on each deploy</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Model versioning — tracking which model+prompt produced which output</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Drift detection — monitoring output quality over time</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Model registries — Hugging Face Hub, MLflow for model management</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>A/B testing LLMs — routing % of traffic to model variants</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Observability stack — LangSmith traces + custom logging + alerting</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Guardrails — Llama Guard, NeMo Guardrails, content filtering</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>AI safety basics — alignment, RLHF, constitutional AI concepts</span><span class="lang-badge badge-both">Both</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Cloud AI Platforms (pick one to go deep)</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>AWS Bedrock — model access, knowledge bases, agents, guardrails</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Azure AI Studio — model catalogue, prompt flow, deployments</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>GCP Vertex AI — Gemini, model garden, pipelines</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Cloudflare AI Gateway — rate limiting, caching, analytics across LLM providers</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Python — Deeper Model Work</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>PyTorch basics — tensors, autograd, forward pass (conceptual understanding)</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Transformer architecture — attention mechanism, BERT vs GPT families</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Advanced fine-tuning — DPO, ORPO, preference datasets</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Quantization — GPTQ, AWQ, bitsandbytes — running large models on small hardware</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Synthetic data generation — generating training data with LLMs</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Advanced evals — LLM-as-judge, G-Eval, custom eval harnesses</span><span class="lang-badge badge-py">PY</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Architecture Documentation</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Architecture Decision Records (ADRs) — context, decision, alternatives, consequences</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>RFC (Request for Comments) — writing technical proposals for teams</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>System diagrams — C4 model, sequence diagrams, data flow diagrams</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Runbooks — operational docs for AI systems (what to do when X fails)</span><span class="lang-badge badge-both">Both</span></li>
+              </ul>
+            </div>
+
+            <div class="milestone-box">
+              <strong>✦ Phase Gate:</strong> Write a full architecture design doc for a new AI system from scratch — before any code. Include: system diagram, model selection rationale, cost estimate, failure modes, and 3 ADRs. This single artifact demonstrates architect-level thinking.
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node-spacer"></div>
+
+  <!-- ═══════════════ PHASE 6 ═══════════════ -->
+  <div class="phase-node" style="--phase-color: var(--lead);">
+    <div class="branch-line branch-right" style="--phase-color: var(--lead);"></div>
+    <div class="beam-dot" style="background: var(--lead); box-shadow: 0 0 0 4px rgba(255,159,67,0.2), 0 0 20px 6px rgba(255,159,67,0.6);"></div>
+
+    <!-- LEFT: Phase card -->
+    <div class="phase-left">
+      <div class="phase-card" style="--phase-color: var(--lead);" onclick="toggleCard(this)">
+        <div class="card-head">
+          <div class="card-tag">Phase 06 · Month 12+ · Career</div>
+          <div class="card-title">Tech Lead in Practice</div>
+          <div class="card-duration">Month 12 → career · Portfolio, certs, community, leadership</div>
+        </div>
+        <div class="card-preview">Certs, portfolio, open-source, writing publicly. Architects are defined by what others build on top of their decisions.</div>
+        <div class="card-toggle"><span class="toggle-arrow">▼</span> <span>Expand all topics</span></div>
+        <div class="card-detail">
+          <div class="detail-inner">
+
+            <div class="topic-group">
+              <div class="tg-label">Tech Lead Skills</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Translating business goals → technical blueprints</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Build vs buy vs fine-tune decision framework</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Risk assessment — likelihood × impact matrix for AI systems</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Code review culture — giving feedback that grows engineers</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Stakeholder communication — explaining AI trade-offs to non-technical people</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Responsible AI — ethics frameworks, bias auditing, explainability</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Technical mentorship — 1:1s, growth plans, code pairing</span><span class="lang-badge badge-both">Both</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Certifications (choose 1–2)</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>AWS AI Practitioner → AWS ML Specialty</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Azure AI Engineer Associate (AI-102)</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Google Cloud Professional ML Engineer</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>DeepLearning.AI MLOps Specialization (Coursera)</span><span class="lang-badge badge-py">PY</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Portfolio Targets</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>Movie RAG App — deployed, documented, with architecture writeup</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Multi-agent system — LangGraph, 3+ tools, LangSmith observable</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Fine-tuned model — pushed to HuggingFace Hub with model card</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Open-source contribution — LangChain JS, MCP SDK, or HuggingFace</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>ADR archive on GitHub — visible record of architecture thinking</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>1 technical blog post per month — Medium, Dev.to, or personal site</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Cloudflare Workers AI project — something that runs LLMs at the edge</span><span class="lang-badge badge-ts">TS</span></li>
+              </ul>
+            </div>
+
+            <div class="topic-group">
+              <div class="tg-label">Must-Read Books & Resources</div>
+              <ul class="topic-list">
+                <li class="topic-item"><div class="topic-bullet"></div><span>"Designing Machine Learning Systems" — Chip Huyen</span><span class="lang-badge badge-py">PY</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>"Building LLMs for Production" — Towards AI</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Anthropic engineering blog — alignment, Claude internals, research</span><span class="lang-badge badge-both">Both</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>LangChain blog — production agents, LangGraph patterns</span><span class="lang-badge badge-ts">TS</span></li>
+                <li class="topic-item"><div class="topic-bullet"></div><span>Hugging Face blog — model releases, fine-tuning guides</span><span class="lang-badge badge-py">PY</span></li>
+              </ul>
+            </div>
+
+            <div class="milestone-box">
+              <strong>✦ The Architect Signal:</strong> You become an AI Architect when other engineers reference your design decisions. Write publicly. Build systems others build on top of. The title follows the reputation — not the other way around.
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: month label -->
+    <div class="phase-right">
+      <div style="font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);padding-top:30px;">
+        MONTH 12+
+      </div>
+    </div>
+  </div>
+
+</div><!-- end timeline-wrap -->
+
+<!-- DESTINATION ORB -->
+<div class="destination">
+  <div class="dest-beam-end"></div>
+  <div class="dest-orb"></div>
+  <div class="dest-title">AI ARCHITECT</div>
+  <div class="dest-sub">Luci · ParthanahalliRehaan · 2027</div>
+</div>
+
+</div><!-- end page -->
+
+<script>
+// ── STARFIELD ──
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resize() {
+  canvas.width  = window.innerWidth;
+  canvas.height = document.body.scrollHeight;
+  makeStars();
+}
+
+function makeStars() {
+  stars = [];
+  const n = Math.floor((canvas.width * canvas.height) / 6000);
+  for (let i = 0; i < n; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + 0.2,
+      a: Math.random(),
+      speed: Math.random() * 0.004 + 0.001
+    });
+  }
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.a += s.speed;
+    const alpha = (Math.sin(s.a) * 0.4 + 0.6);
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(180,210,255,${alpha})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+window.addEventListener('resize', () => { resize(); });
+resize();
+drawStars();
+
+// ── CARD TOGGLE ──
+function toggleCard(card) {
+  const isOpen = card.classList.contains('open');
+  // close others in same side
+  document.querySelectorAll('.phase-card.open').forEach(c => {
+    if (c !== card) c.classList.remove('open');
+  });
+  card.classList.toggle('open', !isOpen);
+}
+
+// ── BEAM DOT CLICK = open its card ──
+document.querySelectorAll('.beam-dot').forEach(dot => {
+  dot.addEventListener('click', () => {
+    const node = dot.closest('.phase-node');
+    const card = node.querySelector('.phase-card');
+    if (card) toggleCard(card);
+  });
+});
+
+// ── SCROLL: update canvas height when content expands ──
+const observer = new MutationObserver(() => {
+  canvas.height = document.body.scrollHeight;
+  makeStars();
+});
+observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+</script>
+</body>
+</html>

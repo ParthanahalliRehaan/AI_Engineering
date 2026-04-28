@@ -1,0 +1,36 @@
+---
+
+### 📝 Error Log Entry
+
+**Error Message**  
+```
+error TS5112: tsconfig.json is present but will not be loaded if files are specified on commandline. Use '--ignoreConfig' to skip this error.
+```
+
+**Cause**  
+- Occurs because you ran `npx tsc script.ts` while a `tsconfig.json` file already exists.  
+- TypeScript expects you to compile the whole project with `tsc` when a config is present.  
+- Specifying a file bypasses the config, so the compiler complains.
+
+**Solution**  
+- **Option 1 (Recommended)**: Compile all files with config  
+  ```bash
+  npx tsc
+  ```
+- **Option 2**: Ignore config for one-off compilation  
+  ```bash
+  npx tsc script.ts --ignoreConfig
+  ```
+- **Option 3**: Use `ts-node` for direct execution (no `.js` output)  
+  ```bash
+  npx ts-node script.ts
+  ```
+
+**Summary**  
+- The error was due to an outdated workflow (specifying files directly).  
+- Fixed by either compiling the whole project (`npx tsc`) or explicitly ignoring the config.  
+- For production builds, always use `npx tsc` with `tsconfig.json`.
+
+---
+
+👉 This format makes it easy to remember: **Error → Cause → Solution → Summary**.  

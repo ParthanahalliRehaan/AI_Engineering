@@ -1,0 +1,5 @@
+look at ../resources.txt for notes from OWASP
+
+In short, 
+What is a threat model?
+A threat model is just a smart “what could go wrong?” list for your app: what you want to protect, who might attack it, and how they might try.
