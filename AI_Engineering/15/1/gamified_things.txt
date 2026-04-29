@@ -23,3 +23,5 @@ Make a 2D game with a boss to beat the boss one must and should write the code t
 
 Each 24 Hours task is broken into 4 boss and the learner must beat these boss the flow is given below -
     jump move forward ---> learn a concept ---> jump move forward ---> ...... ---> boss fight answer all the question and write the code to win the boss.
+
+We can even add different bosses genres like pokemon and other anime bosses like Solo leveling.
