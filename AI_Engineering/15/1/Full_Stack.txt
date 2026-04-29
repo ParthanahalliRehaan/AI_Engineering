@@ -1,87 +1,161 @@
-Full tech stack (final version)
-Frontend
-Framework: Next.js (App Router) with TypeScript.
+Core concept (locked-in)
+Frontend is a 2D side‑scroller: move → learn concept → move → mini‑boss → final boss; each boss requires answering questions + writing code.
 
-UI:
+Coding happens in an HTML/JS editor panel, not inside the canvas: easier to build, easier to store/validate, more “real dev” feel.
 
-Tailwind CSS for rapid styling.
+Every 24 hours the user gets one “day quest” split into 4 bosses, tied to concepts your AI (or rules) pick.
 
-shadcn/ui (or similar headless components) for consistent buttons, modals, inputs.
+Users:
 
-State & data fetching:
+Create account (auth).
 
-React Query or Next’s built‑in server actions/fetch patterns for calls to your APIs.
+Play game; each cleared boss is stored in DB with XP.
 
-Backend / API
-Main backend: Next.js Route Handlers (API routes) in TypeScript running on the same app (simple monolith to start).
+Progress, streaks, and unlocked levels are all persisted.
 
-Responsibilities:
+Frontend & game stack
+Framework:
 
-CRUD for users, tasks, XP, daily stats.
+Next.js (App Router) + TypeScript – one app for pages + API routes + game page.
 
-Auth-protected endpoints for marking tasks complete.
+Styling & UI:
 
-Endpoints that trigger/generate daily plans (calling the AI service).
+Tailwind CSS for layouts + responsive UI.
 
-Optional later flex: a small Go microservice for high‑throughput analytics or recommendation jobs if you want to show off another language.
+shadcn/ui (or similar) for modals, buttons, forms, to avoid custom UI boilerplate.
 
-Database & storage
-Primary DB: PostgreSQL (Supabase or Neon).
+2D game engine (recommended): Phaser 3
 
-ORM: Prisma ORM for schema, migrations, and type-safe queries.
+Use the official Phaser 3 + Next.js template so React and Phaser are already wired together properly.
 
-Vector search:
+Game runs in a <canvas> inside a page like /play, controlled via a Phaser Scene.
 
-Either pgvector extension inside Postgres, or an external vector DB like Qdrant or Pinecone for embeddings of tasks, explanations, and user notes.
+Alternative (simpler engine): Kaboom.js
 
-AI & adaptive engine
-LLM provider(s): OpenAI / Anthropic / other hosted APIs.
+Great for simple platformers and used in dev‑portfolio‑as‑game examples.
 
-Purpose:
+Still integrates via a <canvas> on a Next.js page.
 
-Generate & adjust daily task lists based on user history, pace, and business level.
+Code editor UI:
 
-Optionally generate hints/explanations, but core is task planning.
+Use Monaco Editor (VS Code’s editor) embedded in a React component that appears when a boss fight starts.
 
-Orchestration:
+Flow: Phaser triggers “boss fight” → React shows modal with Monaco editor + questions; on success, call API, then notify Phaser that boss is defeated.
 
-Lightweight agent/graph framework (LangGraph/LangChain or similar in TS or Python) to implement the “daily planner agent”.
+Backend & API design
+Runtime:
 
-Algorithms / logic:
+Next.js Route Handlers (API routes) in TypeScript – you don’t need a separate backend server initially.
 
-Use simple rule‑plus‑LLM: rules compute pace and target minutes; LLM chooses/phrases tasks within that budget.
+API responsibilities:
+
+Auth‑protected endpoints for:
+
+Creating/updating profile.
+
+Fetching today’s 4 bosses + tasks.
+
+Validating challenge (optional AI) and marking boss as beaten.
+
+Updating XP, streaks, unlocked levels.
+
+Internal API style:
+
+REST (simple) or tRPC if you want typesafe end‑to‑end; REST is enough and interviewers know it well.
+
+Data & game logic layer
+Database:
+
+PostgreSQL on Supabase or Neon.
+
+ORM:
+
+Prisma for schema, migrations, and type‑safe queries.
+
+Tables (high level):
+
+users – auth user id, profile info.
+
+skills – per topic skill XP/level (html, css, js, backend, ai).
+
+day_quests – one row per user per day (date, status).
+
+bosses – four per day quest, with concept, difficulty, and status.
+
+boss_attempts – code submitted, result (pass/fail), timestamps.
+
+xp_history – how much XP earned from which boss/quest.
+
+Game state sync:
+
+On loading /play, frontend calls /api/today-quest to get bosses/progress and initialize Phaser state.
+
+When player reaches a boss gate, Phaser/React uses this data to show the relevant challenge; on success → call /api/boss/complete.
+
+AI usage (optional but impressive)
+Where AI fits (if you want it):
+
+Generate boss questions and code prompts per concept.
+
+Provide hints/explanations if the learner fails multiple times.
+
+Later: auto‑evaluate simple answers or code (for controlled tasks).
+
+Stack:
+
+Hosted LLM (OpenAI / Anthropic / etc.).
+
+Light agent/orchestrator (LangChain/LangGraph) for a “Boss Generator” and (maybe) “Answer Evaluator” service.
+
+You can start rule‑based (manual questions stored in DB) and bolt AI on later.
 
 Auth & security
-Auth:
+Auth options (pick one):
 
-Clerk, Auth.js, or Supabase Auth; all work well with Next.js.
+Auth.js (NextAuth) – tightly integrated with Next.js, supports email/password + OAuth.
+
+Clerk – great DX and built‑in UIs if you want to move faster.
 
 Security basics:
 
-HTTPS by default, secure cookies/sessions, rate limiting with Redis or Cloudflare.
+All write APIs require auth; use middleware in Next.js to protect /play and /api/*.
 
-Infra, deployment, and ops
-Hosting:
+Store user IDs in DB FK; no trusting client for XP or progress.
 
-Vercel or Cloudflare Pages/Workers for the Next.js app.
+Rate limit critical routes (login, boss validation) using Redis / Cloudflare KV.
 
-Background jobs:
+Deployment & “good servers”
+App hosting:
 
-Cloudflare Cron Triggers / Workers or Vercel Cron to run the daily “generate tasks for each user” job.
+Vercel or Cloudflare Pages/Workers for Next.js + Phaser game. Both can handle hundreds of users easily.
+
+Database:
+
+Supabase or Neon for managed Postgres (auto scaling, backups).
+
+Background work:
+
+Vercel Cron or Cloudflare Cron to:
+
+Generate daily quests (4 bosses) for each active user at midnight.
+
+Maybe recalc XP/skill levels.
 
 Caching & rate limiting:
 
-Upstash Redis or Cloudflare KV for caching AI results, XP summaries, and for protecting LLM APIs.
+Upstash Redis or Cloudflare KV for caching AI responses and rate limiting.
 
-Monitoring & analytics:
+Monitoring:
 
-Sentry for error tracking on frontend + backend.
+Sentry for errors, PostHog/Plausible for analytics (how many users reach boss 4, etc.).
 
-PostHog or Plausible for product analytics (funnel from signup → first quest → streaks).
+TL;DR stack (what you’d put on resume)
+Frontend & game: Next.js (TS), Tailwind, shadcn/ui, Phaser 3 (2D game with bosses, integrated via official Phaser+Next template).
 
-Dev experience
-Version control: Git + GitHub (branches, PRs, Issues).
+Backend: Next.js API routes (TS), REST, Auth.js/Clerk.
 
-CI/CD: GitHub Actions → auto test, lint, typecheck → deploy to Vercel/Cloudflare.
+Data: Postgres (Supabase/Neon) + Prisma, structured around users, daily quests, bosses, XP, attempts.
 
-Editor: VS Code + ESLint + Prettier + maybe Copilot/Cursor to speed up boilerplate.
+AI (optional but strong signal): hosted LLM + simple agent for generating challenges/adaptive difficulty.
+
+Infra: Vercel/Cloudflare deploy, cron jobs for daily quests, Redis/KV for caching/rate limiting, Sentry + PostHog/Plausible for observability.
