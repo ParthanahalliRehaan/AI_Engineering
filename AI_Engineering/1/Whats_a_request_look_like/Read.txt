@@ -1,0 +1,3 @@
+Here the library didn't change even though AI Models change, conveys us that we can access AI clients Beyond OpenAI using openai library.
+
+DAIP(DAAPI) Destination, AI Model & (Identity & Permission)

@@ -1,0 +1,90 @@
+──────────────────────────────────────────────
+🔹 JavaScript Thread Model
+──────────────────────────────────────────────
+- JavaScript runs on a single thread → one call stack.
+- Only one piece of code executes at a time.
+- Browser (or Node.js) provides Web APIs for timers, DOM events, I/O.
+- Event Loop coordinates execution between:
+  • Call Stack (synchronous code runs immediately)
+  • Task Queue (macrotasks: setTimeout, DOM events, I/O)
+  • Microtask Queue (promises, queueMicrotask)
+
+──────────────────────────────────────────────
+🔹 Event Loop Mechanics
+──────────────────────────────────────────────
+1. Call Stack executes synchronous code.
+2. Browser APIs handle async tasks (timers, events).
+3. When tasks complete, callbacks are queued.
+4. Event Loop checks:
+   - If Call Stack is empty → run microtasks first.
+   - Then dequeue macrotasks → run them.
+5. This ensures non-blocking behavior.
+
+──────────────────────────────────────────────
+🔹 setTimeout()
+──────────────────────────────────────────────
+- Delegates to browser timer.
+- After delay, callback is queued in Task Queue.
+- Runs only when Call Stack is free.
+- Delay is minimum wait time, not guaranteed exact execution.
+
+Example:
+console.log("Start");
+setTimeout(() => console.log("Timeout done"), 1000);
+console.log("End");
+
+Output:
+Start
+End
+Timeout done
+
+──────────────────────────────────────────────
+🔹 addEventListener()
+──────────────────────────────────────────────
+- Registers a callback with browser for an event.
+- Browser listens for event (e.g., click).
+- When event occurs, callback is queued in Task Queue.
+- Event Loop executes it when Call Stack is free.
+
+Example:
+document.getElementById("btn").addEventListener("click", () => {
+  console.log("Button clicked!");
+});
+
+Clicking the button enqueues the callback → runs later.
+
+──────────────────────────────────────────────
+🔹 Why They Don’t Block
+──────────────────────────────────────────────
+- Both delegate work to browser APIs.
+- JavaScript doesn’t wait; it keeps executing other code.
+- Event Loop ensures callbacks run only when main thread is free.
+- This keeps UI responsive and avoids blocking.
+
+──────────────────────────────────────────────
+🔹 Task vs Microtask Priority
+──────────────────────────────────────────────
+- Microtasks (promises, queueMicrotask) run before macrotasks.
+- Macrotasks include setTimeout, DOM events, I/O.
+
+Example:
+console.log("Start");
+setTimeout(() => console.log("Timeout"), 0);
+Promise.resolve().then(() => console.log("Promise"));
+console.log("End");
+
+Output:
+Start
+End
+Promise
+Timeout
+
+──────────────────────────────────────────────
+🔹 Summary
+──────────────────────────────────────────────
+- JavaScript is single-threaded but non-blocking.
+- setTimeout() → schedules future execution via Task Queue.
+- addEventListener() → reacts to events via Task Queue.
+- Event Loop orchestrates execution order.
+- Microtasks always run before macrotasks.
+──────────────────────────────────────────────
