@@ -1,0 +1,2 @@
+make a subfolder called openai functions Agent then keep entire code base for next half of agent here ok
+so the nxt folders will be for opensouce section of this course
